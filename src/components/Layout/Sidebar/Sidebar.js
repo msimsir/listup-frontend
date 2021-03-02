@@ -13,7 +13,6 @@ import {
   IoNotificationsOutline,
   IoPersonCircleOutline,
 } from "react-icons/io5";
-import SidebarList from "../../SidebarList/SidebarList";
 
 import {
   SidebarContainer,
