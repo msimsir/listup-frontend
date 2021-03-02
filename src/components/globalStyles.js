@@ -1,18 +1,42 @@
 import styled, { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: "Poppins", sans-serif;
 }
+html,body {
+height: 100vh;
+}
+
+/* styling scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgba(56, 62, 86, 0.6);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 62, 86, 0.9);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 62, 86, 0.9);
+  border-radius: 10px;
+}
 `;
 
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
+  color: #3e3e56;
 `;
 
 export default GlobalStyle;
