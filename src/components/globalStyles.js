@@ -39,4 +39,16 @@ export const Container = styled.div`
   color: #3e3e56;
 `;
 
+export const Row = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: "column";
+  width: 100%;
+`;
+
 export default GlobalStyle;
