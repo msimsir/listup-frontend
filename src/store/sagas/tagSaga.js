@@ -1,4 +1,4 @@
-import { takeLatest, all, put, call } from "redux-saga/effects";
+import { takeLatest, all, put, call, delay } from "redux-saga/effects";
 import * as api from "../../api";
 
 import {
@@ -16,6 +16,7 @@ import {
 function* handleGetRequest(action) {
   try {
     const { data } = yield call(api.getTag);
+    yield delay(1000);
     yield put({ type: GET_TAG_REQUEST_SUCCESS, payload: data });
   } catch (error) {
     yield put({ type: TAG_REQUEST_FAILED, paylaod: error });
