@@ -1,32 +1,21 @@
 import styled from "styled-components";
 
-const ListFieldWrapper = styled.select`
+const ListField = styled.select`
   width: 100%;
-  height: 35px;
+  height: 2rem;
   background: white;
-  padding-left: 5px;
+  padding-left: 0.5rem;
   border: 1px solid rgba(112, 112, 112, 0.4);
   border-radius: 0.25rem;
   color: #3e3e56;
+
   option {
     background: white;
     display: flex;
     white-space: pre;
     min-height: 20px;
-    padding: 0px 2px 1px;
+    padding: 0px 0.5rem 0.1rem;
   }
 `;
-
-const ListField = ({ data }) => {
-  return (
-    <ListFieldWrapper>
-      {data.map((item) => (
-        <option key={item} value={item}>
-          {item}
-        </option>
-      ))}
-    </ListFieldWrapper>
-  );
-};
 
 export default ListField;

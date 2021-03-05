@@ -8,6 +8,10 @@ const TextField = styled.textarea`
   background-color: #fff;
   border-radius: 0.25rem;
   outline: none;
+
+  &:focus {
+    border: 1px solid #3e3e56;
+  }
 `;
 
 export default TextField;
