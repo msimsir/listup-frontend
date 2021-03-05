@@ -13,3 +13,5 @@ export const sidebarMenuItems = [
 export const sidebarList = ["List", "Tag", "Schedule"];
 
 export const timeTags = ["Today", "Tomorrow", "Next 7 Days"];
+
+export const priorityLevels = ["Low", "Medium", "High", "Ultra-High"];
