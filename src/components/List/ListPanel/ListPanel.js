@@ -1,28 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoListOutline, IoAddCircleOutline } from "react-icons/io5";
-import {
-  SidebarSelectorWrapper,
-  SidebarSelectorList,
-  SidebarListItem,
-  ButtonWrapper,
-  InfoHeader,
-} from "./styles";
-
-import { Loader } from "../../UI/Loader/Loader";
+import Loader from "../../UI/Loader/Loader";
+import Panel from "../../UI/Panel/Panel";
+import TextButton from "../../UI/TextButton/TextButton";
+import LabelField from "../../UI/LabelField/LabelField";
 import AddList from "../AddList/AddList";
-
 import { initList } from "../../../store/actions/appActions";
-import { getListRequest } from "../../../store/actions/listActions";
 
-const initialList = {
-  title: "",
-  owner: "",
-};
-
-const ListPanel = ({ title, data }) => {
-  const [listData, setListData] = useState(initialList);
-
+const ListPanel = ({ title }) => {
   const [showAddList, setShowAddList] = useState(false);
   const listInitialize = useSelector(
     (state) => state.uiBehavior.sidebarListInitialize
@@ -38,34 +24,36 @@ const ListPanel = ({ title, data }) => {
   ]);
 
   return (
-    <SidebarSelectorWrapper>
-      <SidebarSelectorList
-        loaderActive={loading === "true" ? loading : undefined}
-      >
+    <Panel>
+      <Panel height="200" overflow="true">
         {loading && <Loader />}
         {!loading && error && <h1>error</h1>}
         {lists.length > 0 &&
           lists.map((list) => (
-            <SidebarListItem key={list._id}>
+            <TextButton key={list._id} size="small" margin="medium">
               <IoListOutline />
               <span>{list.title}</span>
-            </SidebarListItem>
+            </TextButton>
           ))}
-        {!loading && lists.length === 0 && (
-          <InfoHeader>There is no list item in here...</InfoHeader>
+        {listInitialize && !loading && lists.length === 0 && (
+          <LabelField padding size="small">
+            There is no list item in here...
+          </LabelField>
         )}
 
         {/*List */}
-      </SidebarSelectorList>
+      </Panel>
       {showAddList && <AddList setShowAddList={setShowAddList} />}
-      <ButtonWrapper
+      <TextButton
+        size="medium"
+        margin="small"
         onClick={() => setShowAddList(!showAddList)}
         clicked={showAddList}
       >
         <IoAddCircleOutline />
         <span>Add {title}</span>
-      </ButtonWrapper>
-    </SidebarSelectorWrapper>
+      </TextButton>
+    </Panel>
   );
 };
 
