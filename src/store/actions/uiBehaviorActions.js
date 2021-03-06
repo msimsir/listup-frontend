@@ -6,6 +6,9 @@ import {
   SET_SIDEBAR_MENU_ITEM,
   SET_SIDEBAR_LIST_ITEM,
   SET_SIDEBAR_LIST_PICKER,
+  SET_DETAILS_VIEW_TASK,
+  SET_DETAILS_ADD_TASK,
+  SET_DETAILS_EDIT_TASK,
 } from "../../constants/action-types";
 
 // initialize Sidebar data from api
@@ -37,4 +40,16 @@ export const setSidebarListPicker = (index) => {
 // take name of selected list item then send to title
 export const setSidebarListItem = (title) => {
   return { type: SET_SIDEBAR_LIST_ITEM, payload: title };
+};
+
+export const setDetailsViewTask = (toggleState) => {
+  return { type: SET_DETAILS_VIEW_TASK, payload: toggleState };
+};
+
+export const setDetailsAddTask = (toggleState) => {
+  return { type: SET_DETAILS_ADD_TASK, payload: toggleState };
+};
+
+export const setDetailsEditTask = (toggleState) => {
+  return { type: SET_DETAILS_EDIT_TASK, payload: toggleState };
 };

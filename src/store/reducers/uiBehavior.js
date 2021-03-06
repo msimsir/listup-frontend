@@ -7,6 +7,9 @@ import {
   SET_SIDEBAR_MENU_ITEM,
   SET_SIDEBAR_LIST_ITEM,
   SET_SIDEBAR_LIST_PICKER,
+  SET_DETAILS_VIEW_TASK,
+  SET_DETAILS_ADD_TASK,
+  SET_DETAILS_EDIT_TASK,
 } from "../../constants/action-types";
 
 const initialState = {
@@ -24,6 +27,9 @@ const initialState = {
   mainAscendingSort: false,
   mainDescendingSort: false,
   detailsHeaderTitle: "",
+  detailsViewTask: false,
+  detailsAddTask: false,
+  detailsEditTask: false,
 };
 
 export const uiBehavior = (state = initialState, action) => {
@@ -69,6 +75,30 @@ export const uiBehavior = (state = initialState, action) => {
       return {
         ...state,
         mainHeaderTitle: action.payload,
+      };
+
+    case SET_DETAILS_VIEW_TASK:
+      return {
+        ...state,
+        detailsViewTask: action.payload,
+        detailsAddTask: false,
+        detailsEditTask: false,
+      };
+
+    case SET_DETAILS_ADD_TASK:
+      return {
+        ...state,
+        detailsAddTask: action.payload,
+        detailsEditTask: false,
+        detailsViewTask: false,
+      };
+
+    case SET_DETAILS_EDIT_TASK:
+      return {
+        ...state,
+        detailsEditTask: action.payload,
+        detailsAddTask: false,
+        detailsViewTask: false,
       };
 
     default:
