@@ -6,6 +6,7 @@ export const TaskFormWrapper = styled.div`
   padding-right: 2rem;
   font-size: 0.8rem;
   font-weight: 500;
+  position: relative;
 `;
 
 export const FormItem = styled.div`
@@ -16,14 +17,12 @@ export const FormItem = styled.div`
     borderBottom ? "border-bottom: 1px solid rgba(112, 112, 112, 0.2)" : ""};
 `;
 
-export const FormList = styled.select``;
-export const FormDate = styled.div``;
-
 export const FormRow = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
   margin-bottom: 0.5rem;
+  position: relative;
 
   & > :first-child {
     margin-right: 0.5rem;
