@@ -7,9 +7,10 @@ export const MainContainer = styled.div`
   overflow-y: auto;
   display: grid;
   /*grid-template-columns: auto;*/
-  grid-template-rows: 0.1fr 3fr;
+  grid-template-rows: 0.1fr 0.1fr 3fr;
   grid-template-areas:
     "main-header"
+    "main-search"
     "main-content";
 `;
 
@@ -50,4 +51,15 @@ export const IconWrapper = styled.div`
 
 export const MainContent = styled.div`
   grid-area: main-content;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  overflow-y: auto;
+`;
+
+export const MainContentSearchWrapper = styled.div`
+  grid-area: main-search;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 100%;
 `;

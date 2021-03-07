@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoAddCircleOutline, IoTriangleOutline } from "react-icons/io5";
-
-import { MainContainer, MainHeader, MainContent, IconWrapper } from "./styles";
+import {
+  MainContainer,
+  MainHeader,
+  MainContent,
+  IconWrapper,
+  MainContentSearchWrapper,
+} from "./styles";
 import Search from "../../UI/Search/Search";
 import { getTask } from "../../../store/actions/taskActions";
 import { setDetailsAddTask } from "../../../store/actions/uiBehaviorActions";
+import TaskItem from "../../Task/TaskItem/TaskItem";
+import TaskList from "../../Task/TaskList/TaskList";
 
 const Main = () => {
   const [addTaskActive, setAddTaskActive] = useState(false);
@@ -21,13 +28,18 @@ const Main = () => {
       <MainHeader>
         <span>{mainTitle}</span>
         <IconWrapper>
-          <IoAddCircleOutline onClick={() => dispatch(setDetailsAddTask(true))} />
+          <IoAddCircleOutline
+            onClick={() => dispatch(setDetailsAddTask(true))}
+          />
           <IoTriangleOutline />
           <IoTriangleOutline />
         </IconWrapper>
       </MainHeader>
-      <MainContent>
+      <MainContentSearchWrapper>
         <Search />
+      </MainContentSearchWrapper>
+      <MainContent>
+        <TaskList />
       </MainContent>
     </MainContainer>
   );
