@@ -27,6 +27,7 @@ function* handleInitApp(action) {
     yield put({ type: INIT_TASK });
     // get lists
     yield put({ type: INIT_LIST });
+    yield delay(4000);
     yield put({ type: INIT_APP_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
@@ -36,6 +37,7 @@ function* handleInitApp(action) {
 function* handleInitTask(action) {
   try {
     yield put({ type: GET_TASK_REQUEST });
+    yield delay(2000);
     yield put({ type: INIT_TASK_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
@@ -48,6 +50,7 @@ function* handleInitList(action) {
     yield put({ type: GET_LIST_REQUEST });
     // set state of sidebarlistinit
     yield put({ type: INIT_SIDEBAR_LIST });
+    yield delay(2000);
     yield put({ type: INIT_LIST_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
@@ -60,6 +63,7 @@ function* handleInitTag(action) {
     yield put({ type: GET_TAG_REQUEST });
     // set state of sidebartaginit
     yield put({ type: INIT_SIDEBAR_TAG });
+    yield delay(2000);
     yield put({ type: INIT_TAG_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
