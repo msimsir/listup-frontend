@@ -14,7 +14,7 @@ export const getTagRequest = () => {
   return { type: GET_TAG_REQUEST };
 };
 
-export const successTagGetRequest = (tags) => {
+export const successGetTagRequest = (tags) => {
   return { type: GET_TAG_REQUEST_SUCCESS, payload: tags };
 };
 

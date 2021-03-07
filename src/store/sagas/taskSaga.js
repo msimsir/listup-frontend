@@ -1,6 +1,5 @@
-import { takeLatest, all, put, call } from "redux-saga/effects";
+import { takeLatest, all, put, call, delay } from "redux-saga/effects";
 import * as api from "../../api";
-
 import {
   GET_TASK_REQUEST,
   GET_TASK_REQUEST_SUCCESS,
@@ -13,16 +12,17 @@ import {
   TASK_REQUEST_FAILED,
 } from "../../constants/action-types";
 
-function* handleGetTask(action) {
+function* handleGetRequest(action) {
   try {
     const { data } = yield call(api.getTask);
+    yield delay(1000);
     yield put({ type: GET_TASK_REQUEST_SUCCESS, payload: data });
   } catch (error) {
     yield put({ type: TASK_REQUEST_FAILED, payload: error });
   }
 }
 
-function* handleCreateTask(action) {
+function* handleCreateRequest(action) {
   try {
     const { payload: task } = action;
     const { data } = yield call(api.createTask, task);
@@ -32,7 +32,7 @@ function* handleCreateTask(action) {
   }
 }
 
-function* handleUpdateTask(action) {
+function* handleUpdateRequest(action) {
   try {
     const {
       payload: { id, task },
@@ -44,7 +44,7 @@ function* handleUpdateTask(action) {
   }
 }
 
-function* handleDeleteTask(action) {
+function* handleDeleteRequest(action) {
   try {
     const { payload: id } = action;
     const { data } = yield call(api.deleteTask, id);
@@ -55,10 +55,10 @@ function* handleDeleteTask(action) {
 }
 
 export function* taskWatcherSaga() {
-  yield all(
-    takeLatest(GET_TASK_REQUEST, handleGetTask),
-    takeLatest(CREATE_TASK_REQUEST, handleCreateTask),
-    takeLatest(UPDATE_TASK_REQUEST, handleUpdateTask),
-    takeLatest(DELETE_TASK_REQUEST, handleDeleteTask)
-  );
+  yield all([
+    takeLatest(GET_TASK_REQUEST, handleGetRequest),
+    takeLatest(CREATE_TASK_REQUEST, handleCreateRequest),
+    takeLatest(UPDATE_TASK_REQUEST, handleUpdateRequest),
+    takeLatest(DELETE_TASK_REQUEST, handleDeleteRequest),
+  ]);
 }

@@ -10,15 +10,15 @@ import {
   TASK_REQUEST_FAILED,
 } from "../../constants/action-types";
 
-export const getTask = () => {
+export const getTaskRequest = () => {
   return { type: GET_TASK_REQUEST };
 };
 
-export const successTaskGetRequest = (tasks) => {
+export const successGetTaskRequest = (tasks) => {
   return { type: GET_TASK_REQUEST_SUCCESS, payload: tasks };
 };
 
-export const createTask = (task) => {
+export const createTaskRequest = (task) => {
   return { type: CREATE_TASK_REQUEST, payload: task };
 };
 
@@ -26,7 +26,7 @@ export const successCreateTaskRequest = (task) => {
   return { type: CREATE_TASK_REQUEST_SUCCESS, payload: task };
 };
 
-export const updateTask = (id, task) => {
+export const updateTaskRequest = (id, task) => {
   return { type: UPDATE_TASK_REQUEST, payload: { id, task } };
 };
 
@@ -34,7 +34,7 @@ export const successUpdateTaskRequest = (task) => {
   return { type: UPDATE_TASK_REQUEST_SUCCESS, payload: task };
 };
 
-export const deleteTask = (id) => {
+export const deleteTaskRequest = (id) => {
   return { type: DELETE_TASK_REQUEST, payload: id };
 };
 

@@ -14,7 +14,7 @@ export const getListRequest = () => {
   return { type: GET_LIST_REQUEST };
 };
 
-export const successListGetRequest = (lists) => {
+export const successGetListRequest = (lists) => {
   return { type: GET_LIST_REQUEST_SUCCESS, payload: lists };
 };
 
