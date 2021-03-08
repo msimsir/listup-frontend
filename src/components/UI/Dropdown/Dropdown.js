@@ -31,7 +31,7 @@ const Dropdown = ({ data, onSelect }) => {
         {dropdownData &&
           dropdownData.map((item) => (
             <ListItem
-              key={Math.floor(Math.random() * 100)}
+              key={item._id}
               value={item.title}
               onClick={() => onSelect(item)}
             >
