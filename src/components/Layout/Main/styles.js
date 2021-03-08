@@ -53,7 +53,6 @@ export const MainContent = styled.div`
   grid-area: main-content;
   width: 100%;
   height: 100%;
-  display: grid;
   overflow-y: auto;
 `;
 
