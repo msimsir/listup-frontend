@@ -10,21 +10,24 @@ import {
   CardElement,
 } from "./styles";
 
-const TaskItem = ({ title }) => {
+const TaskItem = ({ title, timeTag, subTasks }) => {
   return (
     <CardWrapper>
       <CardHeader>
         <CardTitle>
           <IoSquareOutline /> {title}
         </CardTitle>
-        <CardNotification>Today</CardNotification>
+        <CardNotification>{timeTag}</CardNotification>
       </CardHeader>
       <CardContent>
         {/** Controlling subtask if it exists, includes just first element in this card */}
-
         <CardElementGroup>
-          <IoRocketOutline />
-          <CardElement>search giant usage in fiction</CardElement>
+          {subTasks && subTasks.length > 0 && (
+            <>
+              <IoRocketOutline />
+              <CardElement>search giant usage in fiction</CardElement>
+            </>
+          )}
         </CardElementGroup>
         <CardElementGroup>
           <CardElement>40%</CardElement>

@@ -18,13 +18,20 @@ const TaskList = () => {
   return (
     <>
       {loading && <Loader />}
-      {!loading && error && (
+      {taskInitialize && !tasks && !loading && error && (
         <LabelField padding size="small">
           error
         </LabelField>
       )}
       {tasks.length > 0 &&
-        tasks.map((task) => <TaskItem key={task.title} title={task.title} />)}
+        tasks.map((task) => (
+          <TaskItem
+            key={task.title}
+            title={task.title}
+            timeTag={task.timeTag}
+            subTasks={task.subtasks}
+          />
+        ))}
 
       {taskInitialize && !loading && tasks.length === 0 && (
         <LabelField padding size="small">

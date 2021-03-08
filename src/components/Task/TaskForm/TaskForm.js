@@ -18,23 +18,24 @@ import formatDate from "../../../utils/formatDate";
 import { initList } from "../../../store/actions/appActions";
 import { initTag } from "../../../store/actions/appActions";
 import { setDetailsAddTask } from "../../../store/actions/uiBehaviorActions";
+import incrementDate from "../../../utils/incrementDate";
+import { createTaskRequest } from "../../../store/actions/taskActions";
 
 const initialTask = {
   title: "",
   createdDate: formatDate(new Date()),
-  timeTag: "",
+  timeTag: "Today",
   status: false,
   subtasks: [],
   list: null,
   tags: [],
-  endDate: "",
+  endDate: formatDate(incrementDate(new Date(), 1)),
   trashStatus: false,
 };
 
 const TaskForm = () => {
   const [taskData, setTaskData] = useState(initialTask);
   const [datePicker, setDatePicker] = useState(false);
-  const [selectedTag, setSelectedTag] = useState(null);
   const [tagList, setTagList] = useState(false);
   const lists = useSelector((state) => state.list.lists);
   const tags = useSelector((state) => state.tag.tags);
@@ -51,6 +52,24 @@ const TaskForm = () => {
     date === "Next 7 Days" ? setDatePicker(true) : setDatePicker(false);
   };
 
+  const handleEndDate = (date) => {
+    if (date === "Tomorrow") {
+      setTaskData({
+        ...taskData,
+        timeTag: "Tomorrow",
+        endDate: formatDate(incrementDate(new Date(), 2)),
+      });
+    } else if (date === "Today") {
+      setTaskData({
+        ...taskData,
+        timeTag: "Today",
+        endDate: formatDate(incrementDate(new Date(), 1)),
+      });
+    } else {
+      setTaskData({ ...taskData, timeTag: "Next 7 Days" });
+    }
+  };
+
   const handleTag = (tag) => {
     setTaskData({
       ...taskData,
@@ -58,14 +77,16 @@ const TaskForm = () => {
     });
   };
 
-  console.log("tags", taskData.tags);
-
   useEffect(() => sidebarInit && !tagInitialize && dispatch(initTag()), [
     dispatch,
+    sidebarInit,
+    tagInitialize,
   ]);
 
   useEffect(() => sidebarInit && !listInitialize && dispatch(initList()), [
     dispatch,
+    sidebarInit,
+    listInitialize,
   ]);
 
   return (
@@ -83,8 +104,9 @@ const TaskForm = () => {
             <LabelField>Time to Do</LabelField>
             <ListField
               onChange={(e) => {
-                setTaskData({ ...taskData, timeTag: e.target.value });
+                e.preventDefault();
                 handleCalendar(e.target.value);
+                handleEndDate(e.target.value);
               }}
             >
               {timeTags.map((item) => (
@@ -100,7 +122,11 @@ const TaskForm = () => {
           <LabelField>End Date</LabelField>
           <DateField
             disabled={datePicker ? false : true}
-            onChange={(e) => console.log(formatDate(new Date(e.target.value)))}
+            value={taskData.endDate}
+            min={formatDate(incrementDate(new Date(), 3)).toString()}
+            onChange={(e) => {
+              setTaskData({ ...taskData, endDate: formatDate(e.target.value) });
+            }}
           />
         </FormItem>
       </FormRow>
@@ -108,9 +134,24 @@ const TaskForm = () => {
       {lists && lists.length > 0 && (
         <FormItem>
           <LabelField>Where to List</LabelField>
-          <ListField>
+          <ListField
+            onChange={(e) =>
+              setTaskData({
+                ...taskData,
+                list:
+                  e.target.options.selectedIndex === 0
+                    ? null
+                    : e.target.options[
+                        e.target.options.selectedIndex
+                      ].getAttribute("data-key"),
+              })
+            }
+          >
+            <option key="title" data-key="title" value="Select a list">
+              Select a list
+            </option>
             {lists.map((list) => (
-              <option key={list.title} value={list.title}>
+              <option key={list.title} data-key={list._id} value={list.title}>
                 {list.title}
               </option>
             ))}
@@ -168,7 +209,14 @@ const TaskForm = () => {
       </FormRow>
 
       <FormRow>
-        <Button size="large" primary>
+        <Button
+          size="large"
+          primary
+          onClick={() => {
+            dispatch(createTaskRequest(taskData));
+            setTaskData(initialTask);
+          }}
+        >
           Add
         </Button>
         <Button size="large" onClick={() => dispatch(setDetailsAddTask(false))}>
