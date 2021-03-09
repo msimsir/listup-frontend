@@ -9,7 +9,7 @@ import {
   MainContentSearchWrapper,
 } from "./styles";
 import Search from "../../UI/Search/Search";
-import { getTask } from "../../../store/actions/taskActions";
+
 import { setDetailsAddTask } from "../../../store/actions/uiBehaviorActions";
 import TaskItem from "../../Task/TaskItem/TaskItem";
 import TaskList from "../../Task/TaskList/TaskList";
@@ -23,6 +23,7 @@ const Main = () => {
     //dispatch(getTask());
   }, [dispatch]);
 
+ 
   return (
     <MainContainer>
       <MainHeader>

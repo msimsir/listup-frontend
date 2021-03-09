@@ -31,7 +31,7 @@ import ListPanel from "../../List/ListPanel/ListPanel";
 import TagPanel from "../../Tag/TagPanel/TagPanel";
 import SchedulePanel from "../../Schedule/SchedulePanel/SchedulePanel";
 import { getListRequest } from "../../../store/actions/listActions";
-import { initApp } from "../../../store/actions/appActions";
+import { initDashboard } from "../../../store/actions/appActions";
 
 const Sidebar = () => {
   const [active, setActive] = useState("Today");
@@ -39,7 +39,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const initializeApp = () => {
-    dispatch(initApp());
+    dispatch(initDashboard());
   };
 
   useEffect(() => {

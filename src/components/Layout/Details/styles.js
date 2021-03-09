@@ -18,7 +18,29 @@ export const DetailsHeader = styled.div`
   grid-area: details-header;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
   border-bottom: 1px solid rgba(112, 112, 112, 0.2);
+`;
+
+export const DetailsHeaderElement = styled.div`
+  & > p {
+    font-size: 1.2rem;
+    color: #fb743e;
+    font-weight: 700;
+  }
+
+  & > svg {
+    margin-left: 0.25rem;
+
+    &:hover {
+      font-size: 1.1rem;
+      color: #fb743e;
+      font-weight: 700;
+    }
+  }
 `;
 
 export const DetailsSectionOne = styled.div`

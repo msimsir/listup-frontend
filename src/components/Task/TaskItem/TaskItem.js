@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { IoSquareOutline, IoRocketOutline } from "react-icons/io5";
 import {
   CardWrapper,
@@ -9,12 +10,21 @@ import {
   CardElementGroup,
   CardElement,
 } from "./styles";
+import { setDetailsViewTask } from "../../../store/actions/uiBehaviorActions";
+import { setSelectedTask } from "../../../store/actions/appActions";
 
-const TaskItem = ({ title, timeTag, subTasks }) => {
+const TaskItem = ({ task }) => {
+  const { title, timeTag, subTasks } = task;
+  const dispatch = useDispatch();
   return (
     <CardWrapper>
       <CardHeader>
-        <CardTitle>
+        <CardTitle
+          onClick={() => {
+            dispatch(setDetailsViewTask(true));
+            dispatch(setSelectedTask(task));
+          }}
+        >
           <IoSquareOutline /> {title}
         </CardTitle>
         <CardNotification>{timeTag}</CardNotification>

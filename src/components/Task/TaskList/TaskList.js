@@ -4,6 +4,7 @@ import { initTask } from "../../../store/actions/appActions";
 import LabelField from "../../UI/LabelField/LabelField";
 import Loader from "../../UI/Loader/Loader";
 import TaskItem from "../TaskItem/TaskItem";
+import { getTaskRequest } from "../../../store/actions/taskActions";
 
 const TaskList = () => {
   const sidebarInit = useSelector((state) => state.uiBehavior.sidebarInit);
@@ -15,6 +16,12 @@ const TaskList = () => {
   const error = useSelector((state) => state.task.error);
   const dispatch = useDispatch();
 
+  useEffect(() => sidebarInit && !taskInitialize && dispatch(initTask()), [
+    dispatch,
+    sidebarInit,
+    taskInitialize,
+  ]);
+  
   return (
     <>
       {loading && <Loader />}
@@ -24,14 +31,7 @@ const TaskList = () => {
         </LabelField>
       )}
       {tasks.length > 0 &&
-        tasks.map((task) => (
-          <TaskItem
-            key={task.title}
-            title={task.title}
-            timeTag={task.timeTag}
-            subTasks={task.subtasks}
-          />
-        ))}
+        tasks.map((task) => <TaskItem key={task.title} task={task} />)}
 
       {taskInitialize && !loading && tasks.length === 0 && (
         <LabelField padding size="small">

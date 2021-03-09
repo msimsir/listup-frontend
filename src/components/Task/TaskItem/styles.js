@@ -6,7 +6,7 @@ export const CardWrapper = styled.div`
   //background-color: rgba(56, 62, 86, 0.06);
   background-color: #fff;
   border-bottom: 1px solid rgba(112, 112, 112, 0.2);
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
   transition: all 0.3s ease;
 
   &:hover {
@@ -24,6 +24,9 @@ export const CardTitle = styled.div`
   cursor: pointer;
   & > svg {
     margin-right: 0.5rem;
+    &:hover {
+      color: #fb743e;
+    }
   }
 
   &:hover {

@@ -48,7 +48,8 @@ function* handleDeleteRequest(action) {
   try {
     const { payload: id } = action;
     const { data } = yield call(api.deleteTask, id);
-    yield put({ type: DELETE_TASK_REQUEST_SUCCESS, payload: data });
+    const { _id } = data;
+    yield put({ type: DELETE_TASK_REQUEST_SUCCESS, payload: _id });
   } catch (error) {
     yield put({ type: TASK_REQUEST_FAILED, payload: error });
   }
