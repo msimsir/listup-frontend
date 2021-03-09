@@ -1,6 +1,6 @@
 import {
-  INIT_APP,
-  INIT_APP_SUCCESS,
+  INIT_DASHBOARD,
+  INIT_DASHBOARD_SUCCESS,
   INIT_TASK,
   INIT_TASK_SUCCESS,
   INIT_LIST,
@@ -10,14 +10,15 @@ import {
   INIT_SCHEDULE,
   INIT_SCHEDULE_SUCCESS,
   INIT_FAILED,
+  SET_SELECTED_TASK,
 } from "../../constants/action-types";
 
-export const initApp = () => {
-  return { type: INIT_APP };
+export const initDashboard = () => {
+  return { type: INIT_DASHBOARD };
 };
 
-export const successInitApp = () => {
-  return { type: INIT_APP_SUCCESS };
+export const successInitDashboard = () => {
+  return { type: INIT_DASHBOARD_SUCCESS };
 };
 
 export const initTask = () => {
@@ -54,4 +55,8 @@ export const successInitSchedule = () => {
 
 export const initFailed = (error) => {
   return { type: INIT_FAILED, payload: error };
+};
+
+export const setSelectedTask = (task) => {
+  return { type: SET_SELECTED_TASK, payload: task };
 };

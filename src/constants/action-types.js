@@ -1,6 +1,6 @@
 // action types of APP
-export const INIT_APP = "INIT_APP";
-export const INIT_APP_SUCCESS = "INIT_APP_SUCCESS";
+export const INIT_DASHBOARD = "INIT_DASHBOARD";
+export const INIT_DASHBOARD_SUCCESS = "INIT_DASHBOARD_SUCCESS";
 export const INIT_TASK = "INIT_TASK";
 export const INIT_TASK_SUCCESS = "INIT_TASK_SUCCESS";
 export const INIT_LIST = "INIT_LIST";
@@ -10,6 +10,7 @@ export const INIT_TAG_SUCCESS = "INIT_TAG_SUCCESS";
 export const INIT_SCHEDULE = "INIT_SCHEDULE";
 export const INIT_SCHEDULE_SUCCESS = "INIT_SCHEDULE_SUCCESS";
 export const INIT_FAILED = "INIT_FAILED";
+export const SET_SELECTED_TASK = "SET_SELECTED_TASK";
 
 // action types for UIBEHAVIOR
 export const INIT_SIDEBAR = "INIT_SIDEBAR";

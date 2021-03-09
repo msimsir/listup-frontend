@@ -1,7 +1,7 @@
 import { takeLatest, all, call, put, delay } from "redux-saga/effects";
 import {
-  INIT_APP,
-  INIT_APP_SUCCESS,
+  INIT_DASHBOARD,
+  INIT_DASHBOARD_SUCCESS,
   INIT_SIDEBAR,
   INIT_TASK,
   INIT_TASK_SUCCESS,
@@ -20,7 +20,7 @@ import {
   GET_TAG_REQUEST,
 } from "../../constants/action-types";
 
-function* handleInitApp(action) {
+function* handleInitDashboard(action) {
   try {
     // get tasks
     yield put({ type: INIT_SIDEBAR });
@@ -28,7 +28,7 @@ function* handleInitApp(action) {
     // get lists
     yield put({ type: INIT_LIST });
     yield delay(4000);
-    yield put({ type: INIT_APP_SUCCESS });
+    yield put({ type: INIT_DASHBOARD_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
   }
@@ -84,7 +84,7 @@ function* handleInitSchedule(action) {
 
 export function* appWatcherSaga() {
   yield all([
-    takeLatest(INIT_APP, handleInitApp),
+    takeLatest(INIT_DASHBOARD, handleInitDashboard),
     takeLatest(INIT_TASK, handleInitTask),
     takeLatest(INIT_LIST, handleInitList),
     takeLatest(INIT_TAG, handleInitTag),
