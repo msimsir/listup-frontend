@@ -24,6 +24,7 @@ const LabelField = styled.p`
   font-size: ${({ size }) => handleFontSize(size)};
   width: ${({ width }) => handleLabelWidth(width)};
   padding: ${({ padding }) => (padding ? "0.5rem 2rem" : undefined)};
+  color: ${({ validation }) => validation && "#fb743e"};
 `;
 
 export default LabelField;

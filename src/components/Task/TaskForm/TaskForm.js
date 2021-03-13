@@ -37,6 +37,7 @@ const TaskForm = () => {
   const [taskData, setTaskData] = useState(initialTask);
   const [datePicker, setDatePicker] = useState(false);
   const [tagList, setTagList] = useState(false);
+  const [titleValidation, setTitleValidation] = useState(false);
   const lists = useSelector((state) => state.list.lists);
   const tags = useSelector((state) => state.tag.tags);
   const dispatch = useDispatch();
@@ -77,6 +78,27 @@ const TaskForm = () => {
     });
   };
 
+  const taskValidate = (title) => {
+    if (title === "") {
+      setTitleValidation(true);
+    } else {
+      setTitleValidation(false);
+    }
+  };
+
+  const addTask = () => {
+    if (taskData.title !== "") {
+      dispatch(createTaskRequest(taskData));
+      dispatch(setDetailsAddTask(false));
+    } else {
+      setTitleValidation(true);
+    }
+  };
+
+  const cancelTask = () => {
+    
+  };
+
   useEffect(() => sidebarInit && !tagInitialize && dispatch(initTag()), [
     dispatch,
     sidebarInit,
@@ -94,9 +116,18 @@ const TaskForm = () => {
       <FormItem>
         <LabelField>Title</LabelField>
         <TextField
+          validation={titleValidation}
           rows="2"
-          onChange={(e) => setTaskData({ ...taskData, title: e.target.value })}
+          onChange={(e) => {
+            taskValidate(e.target.value);
+            setTaskData({ ...taskData, title: e.target.value });
+          }}
         />
+        {titleValidation && (
+          <LabelField validation={titleValidation}>
+            This field can not be empty
+          </LabelField>
+        )}
       </FormItem>
       <FormRow>
         <FormItem>
@@ -125,6 +156,7 @@ const TaskForm = () => {
             value={taskData.endDate}
             min={formatDate(incrementDate(new Date(), 3)).toString()}
             onChange={(e) => {
+              e.preventDefault();
               setTaskData({ ...taskData, endDate: formatDate(e.target.value) });
             }}
           />
@@ -135,7 +167,8 @@ const TaskForm = () => {
         <FormItem>
           <LabelField>Where to List</LabelField>
           <ListField
-            onChange={(e) =>
+            onChange={(e) => {
+              e.preventDefault();
               setTaskData({
                 ...taskData,
                 list:
@@ -144,8 +177,8 @@ const TaskForm = () => {
                     : e.target.options[
                         e.target.options.selectedIndex
                       ].getAttribute("data-key"),
-              })
-            }
+              });
+            }}
           >
             <option key="title" data-key="title" value="Select a list">
               Select a list
@@ -209,14 +242,7 @@ const TaskForm = () => {
       </FormRow>
 
       <FormRow>
-        <Button
-          size="large"
-          primary
-          onClick={() => {
-            dispatch(createTaskRequest(taskData));
-            setTaskData(initialTask);
-          }}
-        >
+        <Button size="large" primary onClick={() => addTask()}>
           Add
         </Button>
         <Button size="large" onClick={() => dispatch(setDetailsAddTask(false))}>
