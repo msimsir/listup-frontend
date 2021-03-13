@@ -13,6 +13,7 @@ import Search from "../../UI/Search/Search";
 import { setDetailsAddTask } from "../../../store/actions/uiBehaviorActions";
 import TaskItem from "../../Task/TaskItem/TaskItem";
 import TaskList from "../../Task/TaskList/TaskList";
+import Modal from "../../UI/Modal/Modal";
 
 const Main = () => {
   const [addTaskActive, setAddTaskActive] = useState(false);
@@ -23,26 +24,28 @@ const Main = () => {
     //dispatch(getTask());
   }, [dispatch]);
 
- 
   return (
-    <MainContainer>
-      <MainHeader>
-        <span>{mainTitle}</span>
-        <IconWrapper>
-          <IoAddCircleOutline
-            onClick={() => dispatch(setDetailsAddTask(true))}
-          />
-          <IoTriangleOutline />
-          <IoTriangleOutline />
-        </IconWrapper>
-      </MainHeader>
-      <MainContentSearchWrapper>
-        <Search />
-      </MainContentSearchWrapper>
-      <MainContent>
-        <TaskList />
-      </MainContent>
-    </MainContainer>
+    <>
+      {/*<Modal />*/}
+      <MainContainer>
+        <MainHeader>
+          <span>{mainTitle}</span>
+          <IconWrapper>
+            <IoAddCircleOutline
+              onClick={() => dispatch(setDetailsAddTask(true))}
+            />
+            <IoTriangleOutline />
+            <IoTriangleOutline />
+          </IconWrapper>
+        </MainHeader>
+        <MainContentSearchWrapper>
+          <Search />
+        </MainContentSearchWrapper>
+        <MainContent>
+          <TaskList />
+        </MainContent>
+      </MainContainer>
+    </>
   );
 };
 
