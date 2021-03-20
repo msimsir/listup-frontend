@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 export const DropdownList = styled.ul`
@@ -23,13 +23,11 @@ export const ListItem = styled.li`
 `;
 
 const Dropdown = ({ data, onSelect }) => {
-  const [dropdownData, setDropdownData] = useState(data);
-
   return (
     <>
       <DropdownList>
-        {dropdownData &&
-          dropdownData.map((item) => (
+        {data &&
+          data.map((item) => (
             <ListItem
               key={item._id}
               value={item.title}
