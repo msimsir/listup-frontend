@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoSquareOutline, IoRocketOutline } from "react-icons/io5";
 import {
   CardWrapper,
@@ -10,19 +10,40 @@ import {
   CardElementGroup,
   CardElement,
 } from "./styles";
-import { setDetailsViewTask } from "../../../store/actions/uiBehaviorActions";
+import {
+  setDetailsViewTask,
+  setModal,
+} from "../../../store/actions/uiBehaviorActions";
 import { setSelectedTask } from "../../../store/actions/appActions";
 
 const TaskItem = ({ task }) => {
   const { title, timeTag, subTasks } = task;
+  const onAddingTask = useSelector((state) => state.uiBehavior.onAddingTask);
+  const modalActions = useSelector((state) => state.uiBehavior.modalActions);
+  const modalActionName = useSelector(
+    (state) => state.uiBehavior.modalActionName
+  );
+
   const dispatch = useDispatch();
   return (
     <CardWrapper>
       <CardHeader>
         <CardTitle
           onClick={() => {
-            dispatch(setDetailsViewTask(true));
-            dispatch(setSelectedTask(task));
+            onAddingTask &&
+              dispatch(
+                setModal(
+                  true,
+                  [
+                    ...modalActions,
+                    setDetailsViewTask(true),
+                    setSelectedTask(task),
+                  ],
+                  modalActionName
+                )
+              );
+            !onAddingTask && dispatch(setDetailsViewTask(true));
+            !onAddingTask && dispatch(setSelectedTask(task));
           }}
         >
           <IoSquareOutline /> {title}

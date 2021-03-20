@@ -11,7 +11,6 @@ import {
 import Search from "../../UI/Search/Search";
 
 import { setDetailsAddTask } from "../../../store/actions/uiBehaviorActions";
-import TaskItem from "../../Task/TaskItem/TaskItem";
 import TaskList from "../../Task/TaskList/TaskList";
 import Modal from "../../UI/Modal/Modal";
 
@@ -20,19 +19,24 @@ const Main = () => {
   const dispatch = useDispatch();
   const mainTitle = useSelector((state) => state.uiBehavior.mainHeaderTitle);
 
+  const detailsAddTask = useSelector(
+    (state) => state.uiBehavior.detailsAddTask
+  );
   useEffect(() => {
     //dispatch(getTask());
   }, [dispatch]);
 
   return (
     <>
-      {/*<Modal />*/}
+      <Modal />
       <MainContainer>
         <MainHeader>
           <span>{mainTitle}</span>
           <IconWrapper>
             <IoAddCircleOutline
-              onClick={() => dispatch(setDetailsAddTask(true))}
+              onClick={() =>
+                !detailsAddTask && dispatch(setDetailsAddTask(true))
+              }
             />
             <IoTriangleOutline />
             <IoTriangleOutline />

@@ -17,7 +17,11 @@ import formatDate from "../../../utils/formatDate";
 
 import { initList } from "../../../store/actions/appActions";
 import { initTag } from "../../../store/actions/appActions";
-import { setDetailsAddTask } from "../../../store/actions/uiBehaviorActions";
+import {
+  setDetailsAddTask,
+  setModal,
+  setOnAddingTask,
+} from "../../../store/actions/uiBehaviorActions";
 import incrementDate from "../../../utils/incrementDate";
 import { createTaskRequest } from "../../../store/actions/taskActions";
 
@@ -38,9 +42,10 @@ const TaskForm = () => {
   const [datePicker, setDatePicker] = useState(false);
   const [tagList, setTagList] = useState(false);
   const [titleValidation, setTitleValidation] = useState(false);
+
+  const dispatch = useDispatch();
   const lists = useSelector((state) => state.list.lists);
   const tags = useSelector((state) => state.tag.tags);
-  const dispatch = useDispatch();
   const sidebarInit = useSelector((state) => state.uiBehavior.sidebarInit);
   const tagInitialize = useSelector(
     (state) => state.uiBehavior.sidebarTagInitialize
@@ -48,6 +53,8 @@ const TaskForm = () => {
   const listInitialize = useSelector(
     (state) => state.uiBehavior.sidebarListInitialize
   );
+
+  const onAddingTask = useSelector((state) => state.uiBehavior.onAddingTask);
 
   const handleCalendar = (date) => {
     date === "Next 7 Days" ? setDatePicker(true) : setDatePicker(false);
@@ -90,13 +97,11 @@ const TaskForm = () => {
     if (taskData.title !== "") {
       dispatch(createTaskRequest(taskData));
       dispatch(setDetailsAddTask(false));
+      dispatch(setOnAddingTask(false));
+      dispatch(setModal(false, null));
     } else {
       setTitleValidation(true);
     }
-  };
-
-  const cancelTask = () => {
-    
   };
 
   useEffect(() => sidebarInit && !tagInitialize && dispatch(initTag()), [
@@ -112,7 +117,13 @@ const TaskForm = () => {
   ]);
 
   return (
-    <TaskFormWrapper>
+    <TaskFormWrapper
+      onChange={() => {
+        !onAddingTask && dispatch(setOnAddingTask(true));
+        !onAddingTask &&
+          dispatch(setModal(false, [setOnAddingTask(false)], "proceed"));
+      }}
+    >
       <FormItem>
         <LabelField>Title</LabelField>
         <TextField
@@ -245,7 +256,20 @@ const TaskForm = () => {
         <Button size="large" primary onClick={() => addTask()}>
           Add
         </Button>
-        <Button size="large" onClick={() => dispatch(setDetailsAddTask(false))}>
+        <Button
+          size="large"
+          onClick={() => {
+            onAddingTask &&
+              dispatch(
+                setModal(
+                  true,
+                  [setDetailsAddTask(false), setOnAddingTask(false)],
+                  "exit"
+                )
+              );
+            !onAddingTask && dispatch(setDetailsAddTask(false));
+          }}
+        >
           Cancel
         </Button>
       </FormRow>

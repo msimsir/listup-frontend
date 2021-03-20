@@ -12,7 +12,11 @@ import {
   DetailsHeaderElement,
 } from "./styles";
 import { deleteTaskRequest } from "../../../store/actions/taskActions";
-import { setDetailsViewTask } from "../../../store/actions/uiBehaviorActions";
+import {
+  setDetailsEditTask,
+  setDetailsViewTask,
+  setModal,
+} from "../../../store/actions/uiBehaviorActions";
 
 const Details = () => {
   const dispatch = useDispatch();
@@ -24,6 +28,7 @@ const Details = () => {
   const editTaskState = useSelector(
     (state) => state.uiBehavior.detailsEditTask
   );
+  const onAddingTask = useSelector((state) => state.uiBehavior.onAddingTask);
   const { timeTag } = !selectedTask || selectedTask;
   return (
     <DetailsContainer>
@@ -34,11 +39,19 @@ const Details = () => {
               <LabelField>{timeTag}</LabelField>
             </DetailsHeaderElement>
             <DetailsHeaderElement>
-              <IoPencilOutline />{" "}
+              <IoPencilOutline />
               <IoTrashOutline
                 onClick={() => {
-                  dispatch(deleteTaskRequest(selectedTask._id));
-                  dispatch(setDetailsViewTask(false));
+                  dispatch(
+                    setModal(
+                      true,
+                      [
+                        setDetailsViewTask(false),
+                        deleteTaskRequest(selectedTask._id),
+                      ],
+                      "delete"
+                    )
+                  );
                 }}
               />
             </DetailsHeaderElement>
@@ -47,7 +60,7 @@ const Details = () => {
       </DetailsHeader>
       <DetailsSectionOne>
         {addTaskState && <TaskForm />}
-        {viewTaskState && <TaskDetails task={selectedTask} />}
+        {viewTaskState && !onAddingTask && <TaskDetails task={selectedTask} />}
       </DetailsSectionOne>
       <DetailsSectionTwo></DetailsSectionTwo>
     </DetailsContainer>
