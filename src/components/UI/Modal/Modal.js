@@ -1,36 +1,62 @@
 import React from "react";
-import styled from "styled-components";
-
-const Background = styled.div`
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ModalWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  margin: 1rem;
-  background-color: rgba(255, 255, 255);
-  box-shadow: 6px 6px 12px 2px rgba(56, 62, 86, 0.5);
-  border-radius: 0.25rem;
-  display: flex;
-  width: 200px;
-  height: 200px;
-`;
+import { useDispatch, useSelector } from "react-redux";
+import { Background, ModalWrapper, Column, Row, Header } from "./styles";
+import { IoAlertCircleOutline } from "react-icons/io5";
+import Button from "../Button/Button";
+import LabelField from "../LabelField/LabelField";
+import { setModal } from "../../../store/actions/uiBehaviorActions";
 
 const Modal = () => {
+  const dispatch = useDispatch();
+  const modalView = useSelector((state) => state.uiBehavior.modalView);
+  const modalActions = useSelector((state) => state.uiBehavior.modalActions);
+  const modalActionName = useSelector(
+    (state) => state.uiBehavior.modalActionName
+  );
+  console.log("modal.js-actions,", modalActions);
+  console.log("modal.js-actionname", modalActionName);
+  console.log("modal.js-modalView", modalView);
   return (
-    <Background>
-      <ModalWrapper></ModalWrapper>
-    </Background>
+    <>
+      {modalView && (
+        <Background>
+          <ModalWrapper>
+            <Column>
+              <Row>
+                <IoAlertCircleOutline />
+                <Header>Are you sure you want to {modalActionName} ?</Header>
+              </Row>
+              <Row>
+                <LabelField size="small">Unsaved work will be lost.</LabelField>
+              </Row>
+              <Row>
+                <Button
+                  primary
+                  size="medium"
+                  onClick={() => {
+                    modalActions.map((action) => {
+                      return dispatch(action);
+                    });
+                    dispatch(setModal(false, null));
+                  }}
+                >
+                  {modalActionName.charAt(0).toUpperCase() +
+                    modalActionName.slice(1)}
+                </Button>
+                <Button
+                  size="medium"
+                  onClick={() =>
+                    dispatch(setModal(false, modalActions, modalActionName))
+                  }
+                >
+                  Cancel
+                </Button>
+              </Row>
+            </Column>
+          </ModalWrapper>
+        </Background>
+      )}
+    </>
   );
 };
 
