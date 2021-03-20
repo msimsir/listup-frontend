@@ -10,6 +10,9 @@ import {
   SET_DETAILS_VIEW_TASK,
   SET_DETAILS_ADD_TASK,
   SET_DETAILS_EDIT_TASK,
+  SET_MODAL,
+  ON_ADDING_TASK,
+  ON_EDITING_TASK,
 } from "../../constants/action-types";
 
 const initialState = {
@@ -30,6 +33,11 @@ const initialState = {
   detailsViewTask: false,
   detailsAddTask: false,
   detailsEditTask: false,
+  modalView: false,
+  modalActions: null,
+  modalActionName: [],
+  onAddingTask: false,
+  onEditingTask: false,
 };
 
 export const uiBehavior = (state = initialState, action) => {
@@ -46,6 +54,7 @@ export const uiBehavior = (state = initialState, action) => {
         ...state,
         sidebarListInitialize: true,
       };
+
     case INIT_SIDEBAR_TAG:
       return {
         ...state,
@@ -99,6 +108,26 @@ export const uiBehavior = (state = initialState, action) => {
         detailsEditTask: action.payload,
         detailsAddTask: false,
         detailsViewTask: false,
+      };
+
+    case SET_MODAL:
+      return {
+        ...state,
+        modalView: action.payload.toggleState,
+        modalActions: action.payload.activity,
+        modalActionName: action.payload.name,
+      };
+
+    case ON_ADDING_TASK:
+      return {
+        ...state,
+        onAddingTask: action.payload,
+      };
+
+    case ON_EDITING_TASK:
+      return {
+        ...state,
+        onEditingTask: action.payload,
       };
 
     default:
