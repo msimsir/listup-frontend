@@ -35,7 +35,7 @@ const ListPanel = ({ title }) => {
               <span>{list.title}</span>
             </TextButton>
           ))}
-        {listInitialize && !loading && lists.length === 0 && (
+        {!error && listInitialize && !loading && lists.length === 0 && (
           <LabelField padding size="small">
             There is no list item in here...
           </LabelField>

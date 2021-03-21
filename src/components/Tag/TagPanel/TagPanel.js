@@ -36,7 +36,7 @@ const TagPanel = ({ title }) => {
               <span>{list.title}</span>
             </TextButton>
           ))}
-        {tagInitialize && !loading && tags.length === 0 && (
+        {!error && tagInitialize && !loading && tags.length === 0 && (
           <LabelField padding size="small">
             There is no tag item in here...
           </LabelField>
