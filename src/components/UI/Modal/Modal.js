@@ -13,9 +13,7 @@ const Modal = () => {
   const modalActionName = useSelector(
     (state) => state.uiBehavior.modalActionName
   );
-  console.log("modal.js-actions,", modalActions);
-  console.log("modal.js-actionname", modalActionName);
-  console.log("modal.js-modalView", modalView);
+
   return (
     <>
       {modalView && (

@@ -32,7 +32,7 @@ const Paper = styled.div`
     & > svg {
       position: absolute;
       right: 0.2rem;
-      top: 0.25rem;
+      top: 0.2rem;
 
       &:hover {
         color: #fb743e;
