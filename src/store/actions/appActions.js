@@ -11,6 +11,8 @@ import {
   INIT_SCHEDULE_SUCCESS,
   INIT_FAILED,
   SET_SELECTED_TASK,
+  ON_ADDING_TASK,
+  ON_EDITING_TASK,
 } from "../../constants/action-types";
 
 export const initDashboard = () => {
@@ -59,4 +61,12 @@ export const initFailed = (error) => {
 
 export const setSelectedTask = (task) => {
   return { type: SET_SELECTED_TASK, payload: task };
+};
+
+export const setOnAddingTask = (onAdding) => {
+  return { type: ON_ADDING_TASK, payload: onAdding };
+};
+
+export const setOnEditingTask = (onEditing) => {
+  return { type: ON_EDITING_TASK, payload: onEditing };
 };

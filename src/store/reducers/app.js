@@ -11,12 +11,16 @@ import {
   INIT_SCHEDULE_SUCCESS,
   INIT_FAILED,
   SET_SELECTED_TASK,
+  ON_ADDING_TASK,
+  ON_EDITING_TASK,
 } from "../../constants/action-types";
 
 const initialState = {
   appLoading: false,
   appError: undefined,
   selectedTask: null,
+  onAddingTask: false,
+  onEditingTask: false,
 };
 export const app = (state = initialState, action) => {
   switch (action.type) {
@@ -26,6 +30,7 @@ export const app = (state = initialState, action) => {
     case INIT_TAG:
     case INIT_SCHEDULE:
       return { ...state, appLoading: true };
+
     case INIT_DASHBOARD_SUCCESS:
     case INIT_TASK_SUCCESS:
     case INIT_LIST_SUCCESS:
@@ -35,10 +40,25 @@ export const app = (state = initialState, action) => {
         ...state,
         appLoading: false,
       };
+
     case INIT_FAILED:
       return { ...state, error: action.payload };
+
     case SET_SELECTED_TASK:
       return { ...state, selectedTask: action.payload };
+
+    case ON_ADDING_TASK:
+      return {
+        ...state,
+        onAddingTask: action.payload,
+      };
+
+    case ON_EDITING_TASK:
+      return {
+        ...state,
+        onEditingTask: action.payload,
+      };
+
     default:
       return state;
   }

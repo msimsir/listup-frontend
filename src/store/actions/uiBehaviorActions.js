@@ -10,8 +10,6 @@ import {
   SET_DETAILS_ADD_TASK,
   SET_DETAILS_EDIT_TASK,
   SET_MODAL,
-  ON_ADDING_TASK,
-  ON_EDITING_TASK,
 } from "../../constants/action-types";
 
 // initialize Sidebar data from api
@@ -61,10 +59,4 @@ export const setModal = (toggleState, activity, name) => {
   return { type: SET_MODAL, payload: { toggleState, activity, name } };
 };
 
-export const setOnAddingTask = (onAdding) => {
-  return { type: ON_ADDING_TASK, payload: onAdding };
-};
 
-export const setOnEditingTask = (onEditing) => {
-  return { type: ON_EDITING_TASK, payload: onEditing };
-};

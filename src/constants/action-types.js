@@ -11,6 +11,8 @@ export const INIT_SCHEDULE = "INIT_SCHEDULE";
 export const INIT_SCHEDULE_SUCCESS = "INIT_SCHEDULE_SUCCESS";
 export const INIT_FAILED = "INIT_FAILED";
 export const SET_SELECTED_TASK = "SET_SELECTED_TASK";
+export const ON_ADDING_TASK = "ON_ADDING_TASK";
+export const ON_EDITING_TASK = "ON_EDITING_TASK";
 
 // action types for UIBEHAVIOR
 export const INIT_SIDEBAR = "INIT_SIDEBAR";
@@ -24,8 +26,6 @@ export const SET_DETAILS_VIEW_TASK = "SET_DETAILS_VIEW_TASK";
 export const SET_DETAILS_ADD_TASK = "SET_DETAILS_ADD_TASK";
 export const SET_DETAILS_EDIT_TASK = "SET_DETAILS_EDIT_TASK";
 export const SET_MODAL = "SET_MODAL";
-export const ON_ADDING_TASK = "ON_ADDING_TASK";
-export const ON_EDITING_TASK = "ON_EDITING_TASK";
 
 // action types for TASK
 export const GET_TASK_REQUEST = "GET_TASK_REQUEST";

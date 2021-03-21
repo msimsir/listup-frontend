@@ -11,8 +11,6 @@ import {
   SET_DETAILS_ADD_TASK,
   SET_DETAILS_EDIT_TASK,
   SET_MODAL,
-  ON_ADDING_TASK,
-  ON_EDITING_TASK,
 } from "../../constants/action-types";
 
 const initialState = {
@@ -36,8 +34,6 @@ const initialState = {
   modalView: false,
   modalActions: null,
   modalActionName: [],
-  onAddingTask: false,
-  onEditingTask: false,
 };
 
 export const uiBehavior = (state = initialState, action) => {
@@ -116,18 +112,6 @@ export const uiBehavior = (state = initialState, action) => {
         modalView: action.payload.toggleState,
         modalActions: action.payload.activity,
         modalActionName: action.payload.name,
-      };
-
-    case ON_ADDING_TASK:
-      return {
-        ...state,
-        onAddingTask: action.payload,
-      };
-
-    case ON_EDITING_TASK:
-      return {
-        ...state,
-        onEditingTask: action.payload,
       };
 
     default:
