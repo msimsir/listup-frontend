@@ -21,11 +21,11 @@ const TaskList = () => {
     sidebarInit,
     taskInitialize,
   ]);
-  
+
   return (
     <>
       {loading && <Loader />}
-      {taskInitialize && !tasks && !loading && error && (
+      {!loading && error && (
         <LabelField padding size="small">
           error
         </LabelField>
@@ -33,7 +33,7 @@ const TaskList = () => {
       {tasks.length > 0 &&
         tasks.map((task) => <TaskItem key={task.title} task={task} />)}
 
-      {taskInitialize && !loading && tasks.length === 0 && (
+      {!error && taskInitialize && !loading && tasks.length === 0 && (
         <LabelField padding size="small">
           There is no task item in here...
         </LabelField>

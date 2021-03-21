@@ -21,6 +21,8 @@ import {
 const Details = () => {
   const dispatch = useDispatch();
   const selectedTask = useSelector((state) => state.app.selectedTask);
+  const onAddingTask = useSelector((state) => state.app.onAddingTask);
+  const onEditingTask = useSelector((state) => state.app.onEditingTask);
   const viewTaskState = useSelector(
     (state) => state.uiBehavior.detailsViewTask
   );
@@ -28,7 +30,6 @@ const Details = () => {
   const editTaskState = useSelector(
     (state) => state.uiBehavior.detailsEditTask
   );
-  const onAddingTask = useSelector((state) => state.uiBehavior.onAddingTask);
   const { timeTag } = !selectedTask || selectedTask;
   return (
     <DetailsContainer>
@@ -39,7 +40,11 @@ const Details = () => {
               <LabelField>{timeTag}</LabelField>
             </DetailsHeaderElement>
             <DetailsHeaderElement>
-              <IoPencilOutline />
+              <IoPencilOutline
+                onClick={() => {
+                  dispatch(setDetailsEditTask(true));
+                }}
+              />
               <IoTrashOutline
                 onClick={() => {
                   dispatch(
@@ -59,7 +64,7 @@ const Details = () => {
         )}
       </DetailsHeader>
       <DetailsSectionOne>
-        {addTaskState && <TaskForm />}
+        {(addTaskState || editTaskState) && <TaskForm />}
         {viewTaskState && !onAddingTask && <TaskDetails task={selectedTask} />}
       </DetailsSectionOne>
       <DetailsSectionTwo></DetailsSectionTwo>

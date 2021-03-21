@@ -20,12 +20,18 @@ import { initTag } from "../../../store/actions/appActions";
 import {
   setDetailsAddTask,
   setModal,
-  setOnAddingTask,
 } from "../../../store/actions/uiBehaviorActions";
+
+import {
+  setOnAddingTask,
+  setOnEditingTask,
+} from "../../../store/actions/appActions";
+
 import incrementDate from "../../../utils/incrementDate";
 import { createTaskRequest } from "../../../store/actions/taskActions";
 
 const initialTask = {
+  id: "",
   title: "",
   createdDate: formatDate(new Date()),
   timeTag: "Today",
@@ -42,7 +48,7 @@ const TaskForm = () => {
   const [datePicker, setDatePicker] = useState(false);
   const [tagList, setTagList] = useState(false);
   const [titleValidation, setTitleValidation] = useState(false);
-
+  const [defaultListItem, setDefaultListItem] = useState("");
   const dispatch = useDispatch();
   const lists = useSelector((state) => state.list.lists);
   const tags = useSelector((state) => state.tag.tags);
@@ -54,7 +60,12 @@ const TaskForm = () => {
     (state) => state.uiBehavior.sidebarListInitialize
   );
 
-  const onAddingTask = useSelector((state) => state.uiBehavior.onAddingTask);
+  const onAddingTask = useSelector((state) => state.app.onAddingTask);
+  const onEditingTask = useSelector((state) => state.app.onAddingTask);
+  const selectedTask = useSelector((state) => state.app.selectedTask);
+  const editTaskState = useSelector(
+    (state) => state.uiBehavior.detailsEditTask
+  );
 
   const handleCalendar = (date) => {
     date === "Next 7 Days" ? setDatePicker(true) : setDatePicker(false);
@@ -83,6 +94,13 @@ const TaskForm = () => {
       ...taskData,
       tags: [...taskData.tags, tag],
     });
+  };
+
+  const handleSelectedList = (item) => {
+    if (item.list !== null) {
+      const { title } = lists.find((list) => list._id === item.list);
+      setDefaultListItem(title);
+    }
   };
 
   const taskValidate = (title) => {
@@ -116,6 +134,16 @@ const TaskForm = () => {
     listInitialize,
   ]);
 
+  useEffect(() => {
+    selectedTask
+      ? setTaskData({ ...selectedTask })
+      : setTaskData({ ...initialTask });
+  }, [selectedTask]);
+
+  useEffect(() => {
+    selectedTask && handleSelectedList(selectedTask);
+  }, [selectedTask]);
+
   return (
     <TaskFormWrapper
       onChange={() => {
@@ -129,6 +157,7 @@ const TaskForm = () => {
         <TextField
           validation={titleValidation}
           rows="2"
+          value={taskData.title}
           onChange={(e) => {
             taskValidate(e.target.value);
             setTaskData({ ...taskData, title: e.target.value });
@@ -145,6 +174,7 @@ const TaskForm = () => {
           <>
             <LabelField>Time to Do</LabelField>
             <ListField
+              value={taskData.timeTag}
               onChange={(e) => {
                 e.preventDefault();
                 handleCalendar(e.target.value);
@@ -164,7 +194,7 @@ const TaskForm = () => {
           <LabelField>End Date</LabelField>
           <DateField
             disabled={datePicker ? false : true}
-            value={taskData.endDate}
+            value={formatDate(taskData.endDate)}
             min={formatDate(incrementDate(new Date(), 3)).toString()}
             onChange={(e) => {
               e.preventDefault();
@@ -178,6 +208,7 @@ const TaskForm = () => {
         <FormItem>
           <LabelField>Where to List</LabelField>
           <ListField
+            value={selectedTask && defaultListItem}
             onChange={(e) => {
               e.preventDefault();
               setTaskData({
@@ -195,7 +226,11 @@ const TaskForm = () => {
               Select a list
             </option>
             {lists.map((list) => (
-              <option key={list.title} data-key={list._id} value={list.title}>
+              <option
+                key={list.title}
+                data-key={list._id}
+                value={list.title}
+              >
                 {list.title}
               </option>
             ))}
@@ -254,7 +289,7 @@ const TaskForm = () => {
 
       <FormRow>
         <Button size="large" primary onClick={() => addTask()}>
-          Add
+          {editTaskState ? <>Edit</> : <>Add</>}
         </Button>
         <Button
           size="large"

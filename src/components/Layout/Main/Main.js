@@ -11,6 +11,7 @@ import {
 import Search from "../../UI/Search/Search";
 
 import { setDetailsAddTask } from "../../../store/actions/uiBehaviorActions";
+import { setSelectedTask } from "../../../store/actions/appActions";
 import TaskList from "../../Task/TaskList/TaskList";
 import Modal from "../../UI/Modal/Modal";
 
@@ -34,9 +35,10 @@ const Main = () => {
           <span>{mainTitle}</span>
           <IconWrapper>
             <IoAddCircleOutline
-              onClick={() =>
-                !detailsAddTask && dispatch(setDetailsAddTask(true))
-              }
+              onClick={() => {
+                !detailsAddTask && dispatch(setDetailsAddTask(true));
+                !detailsAddTask && dispatch(setSelectedTask(null));
+              }}
             />
             <IoTriangleOutline />
             <IoTriangleOutline />

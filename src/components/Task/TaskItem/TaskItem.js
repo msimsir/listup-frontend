@@ -18,7 +18,8 @@ import { setSelectedTask } from "../../../store/actions/appActions";
 
 const TaskItem = ({ task }) => {
   const { title, timeTag, subTasks } = task;
-  const onAddingTask = useSelector((state) => state.uiBehavior.onAddingTask);
+  const onAddingTask = useSelector((state) => state.app.onAddingTask);
+  const onEditingTask = useSelector((state) => state.app.onEditingTask);
   const modalActions = useSelector((state) => state.uiBehavior.modalActions);
   const modalActionName = useSelector(
     (state) => state.uiBehavior.modalActionName
