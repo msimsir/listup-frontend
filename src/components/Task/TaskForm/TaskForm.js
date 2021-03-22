@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { IoCloseOutline, IoPricetagOutline } from "react-icons/io5";
+import {
+  IoCloseOutline,
+  IoPricetagOutline,
+  IoTimeSharp,
+} from "react-icons/io5";
 import Button from "../../UI/Button/Button";
 import InputField from "../../UI/InputField/InputField";
 import LabelField from "../../UI/LabelField/LabelField";
@@ -9,6 +13,7 @@ import TextField from "../../UI/TextField/TextField";
 import DateField from "../../UI/DateField/DateField";
 import IconButton from "../../UI/IconButton/IconButton";
 import Paper from "../../UI/Paper/Paper";
+import Popup from "../../UI/Popup/Popup";
 import Dropdown from "../../UI/Dropdown/Dropdown";
 
 import { TaskFormWrapper, FormItem, FormRow, Divider } from "./styles";
@@ -46,9 +51,11 @@ const initialTask = {
 const TaskForm = () => {
   const [taskData, setTaskData] = useState(initialTask);
   const [datePicker, setDatePicker] = useState(false);
-  const [tagList, setTagList] = useState(false);
+  const [showTagList, setShowTagList] = useState(false);
+  const [showTagPopup, setShowTagPopup] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [titleValidation, setTitleValidation] = useState(false);
-  const [defaultListItem, setDefaultListItem] = useState("");
+  const [selectedListItem, setSelectedListItem] = useState("");
   const dispatch = useDispatch();
   const lists = useSelector((state) => state.list.lists);
   const tags = useSelector((state) => state.tag.tags);
@@ -90,17 +97,49 @@ const TaskForm = () => {
   };
 
   const handleTag = (tag) => {
-    setTaskData({
-      ...taskData,
-      tags: [...taskData.tags, tag],
-    });
+    if (taskData.tags.includes(tag)) {
+      setShowTagPopup(true);
+    } else {
+      setTaskData({
+        ...taskData,
+        tags: [...taskData.tags, tag],
+      });
+      setShowTagPopup(false);
+    }
   };
 
   const handleSelectedList = (item) => {
     if (item.list !== null) {
       const { title } = lists.find((list) => list._id === item.list);
-      setDefaultListItem(title);
+      setSelectedListItem(title);
     }
+  };
+
+  const handleSelectedTags = (item) => {
+    console.log("******************************");
+    console.log("handleSelectedTags");
+
+    /*
+      taskData.tags.forEach((e) =>
+        tags.map(
+          (tag) =>
+            e === tag._id && setTaskData({ ...taskData, tags: [tag] })
+        )
+      );
+
+      */
+
+    //taskData.tags.forEach((e, i) => (taskData.tags[i] = ""));
+    tags.map((tag) =>
+      item.tags.map(
+        (i) =>
+          i === tag._id &&
+          setTaskData({
+            ...taskData,
+            tags: [tag],
+          })
+      )
+    );
   };
 
   const taskValidate = (title) => {
@@ -135,15 +174,21 @@ const TaskForm = () => {
   ]);
 
   useEffect(() => {
-    selectedTask
-      ? setTaskData({ ...selectedTask })
-      : setTaskData({ ...initialTask });
+    if (selectedTask) {
+      setTaskData({ ...selectedTask });
+      if (selectedTask.tags.length > 0) {
+        //taskData.tags.forEach((e, i) => (taskData.tags[i] = ""));
+        handleSelectedList(selectedTask);
+      }
+      handleSelectedTags(selectedTask);
+    } else {
+      setTaskData({ ...initialTask });
+    }
   }, [selectedTask]);
 
-  useEffect(() => {
-    selectedTask && handleSelectedList(selectedTask);
-  }, [selectedTask]);
-
+  console.log("selectedTask", selectedTask);
+  console.log("taskData-tags", taskData.tags);
+  console.log("taskData", taskData);
   return (
     <TaskFormWrapper
       onChange={() => {
@@ -208,7 +253,7 @@ const TaskForm = () => {
         <FormItem>
           <LabelField>Where to List</LabelField>
           <ListField
-            value={selectedTask && defaultListItem}
+            value={selectedTask ? selectedListItem : { value: "Select a list" }}
             onChange={(e) => {
               e.preventDefault();
               setTaskData({
@@ -226,11 +271,7 @@ const TaskForm = () => {
               Select a list
             </option>
             {lists.map((list) => (
-              <option
-                key={list.title}
-                data-key={list._id}
-                value={list.title}
-              >
+              <option key={list.title} data-key={list._id} value={list.title}>
                 {list.title}
               </option>
             ))}
@@ -238,12 +279,18 @@ const TaskForm = () => {
         </FormItem>
       )}
 
-      <FormItem onClick={() => setTagList(false)}>
+      <FormItem onClick={() => setShowTagList(false)}>
         <LabelField>Tags to Select</LabelField>
       </FormItem>
       <FormRow>
+        {showTagPopup && (
+          <Popup
+            text="Each element can be only selected once."
+            onClose={setShowTagPopup}
+          />
+        )}
         {tags && (
-          <IconButton onClick={() => setTagList(!tagList)}>
+          <IconButton onClick={() => setShowTagList(!showTagList)}>
             <IoPricetagOutline />
           </IconButton>
         )}
@@ -271,7 +318,7 @@ const TaskForm = () => {
               ))}
           </Paper>
         )}
-        {tagList && <Dropdown data={tags} onSelect={handleTag} />}
+        {showTagList && <Dropdown data={tags} onSelect={handleTag} />}
       </FormRow>
 
       <Divider />

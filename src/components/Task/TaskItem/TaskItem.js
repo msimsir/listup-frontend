@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoSquareOutline, IoRocketOutline } from "react-icons/io5";
 import {
@@ -21,9 +21,23 @@ const TaskItem = ({ task }) => {
   const onAddingTask = useSelector((state) => state.app.onAddingTask);
   const onEditingTask = useSelector((state) => state.app.onEditingTask);
   const modalActions = useSelector((state) => state.uiBehavior.modalActions);
+  const tags = useSelector((state) => state.tag.tags);
   const modalActionName = useSelector(
     (state) => state.uiBehavior.modalActionName
   );
+
+  /*
+  useEffect(() => {
+    console.log("******************************");
+    if (task.tags.length > 0) {
+      console.log("task", task);
+      task.tags.forEach((e, i) =>
+        tags.map((tag) => e === tag._id && console.log("selected", tag))
+      );
+    }
+  }, []);
+
+  */
 
   const dispatch = useDispatch();
   return (
