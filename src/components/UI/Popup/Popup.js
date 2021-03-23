@@ -4,8 +4,8 @@ import styled from "styled-components";
 
 const PopupWrapper = styled.div`
   position: absolute;
-  bottom: 1.5rem;
-  left: -1rem;
+  top: 1.5rem;
+  right: 0rem;
   z-index: 10;
   margin: 1rem;
   background-color: rgba(255, 255, 255);
@@ -13,6 +13,9 @@ const PopupWrapper = styled.div`
   border-radius: 0.25rem;
   display: flex;
   padding: 1rem;
+  font-size: 0.8rem;
+  min-height: 3rem;
+  min-width: 16rem;
 
   & > svg {
     position: absolute;

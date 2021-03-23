@@ -33,7 +33,7 @@ export const IconWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-right: 2rem;
-
+  position: relative;
   & > svg {
     font-size: 1.1rem;
     margin-left: 0.4rem;
