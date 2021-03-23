@@ -65,7 +65,11 @@ const Details = () => {
       </DetailsHeader>
       <DetailsSectionOne>
         {(addTaskState || editTaskState) && <TaskForm />}
-        {viewTaskState && !onAddingTask && <TaskDetails task={selectedTask} />}
+        {onAddingTask
+          ? null
+          : onEditingTask
+          ? null
+          : viewTaskState && <TaskDetails task={selectedTask} />}
       </DetailsSectionOne>
       <DetailsSectionTwo></DetailsSectionTwo>
     </DetailsContainer>

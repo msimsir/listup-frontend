@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  IoCloseOutline,
-  IoPricetagOutline,
-  IoTimeSharp,
-} from "react-icons/io5";
+import { IoCloseOutline, IoPricetagOutline } from "react-icons/io5";
 import Button from "../../UI/Button/Button";
 import InputField from "../../UI/InputField/InputField";
 import LabelField from "../../UI/LabelField/LabelField";
@@ -24,6 +20,7 @@ import { initList } from "../../../store/actions/appActions";
 import { initTag } from "../../../store/actions/appActions";
 import {
   setDetailsAddTask,
+  setDetailsEditTask,
   setModal,
 } from "../../../store/actions/uiBehaviorActions";
 
@@ -33,10 +30,13 @@ import {
 } from "../../../store/actions/appActions";
 
 import incrementDate from "../../../utils/incrementDate";
-import { createTaskRequest } from "../../../store/actions/taskActions";
+import {
+  createTaskRequest,
+  updateTaskRequest,
+} from "../../../store/actions/taskActions";
 
 const initialTask = {
-  id: "",
+  _id: "",
   title: "",
   createdDate: formatDate(new Date()),
   timeTag: "Today",
@@ -68,7 +68,7 @@ const TaskForm = () => {
   );
 
   const onAddingTask = useSelector((state) => state.app.onAddingTask);
-  const onEditingTask = useSelector((state) => state.app.onAddingTask);
+  const onEditingTask = useSelector((state) => state.app.onEditingTask);
   const selectedTask = useSelector((state) => state.app.selectedTask);
   const editTaskState = useSelector(
     (state) => state.uiBehavior.detailsEditTask
@@ -96,50 +96,36 @@ const TaskForm = () => {
     }
   };
 
-  const handleTag = (tag) => {
-    if (taskData.tags.includes(tag)) {
+  const handleAddTag = (tag) => {
+    if (taskData.tags.includes(tag._id)) {
       setShowTagPopup(true);
     } else {
+      setSelectedTags([...selectedTags, tag]);
       setTaskData({
         ...taskData,
-        tags: [...taskData.tags, tag],
+        tags: [...taskData.tags, tag._id],
       });
       setShowTagPopup(false);
     }
   };
 
   const handleSelectedList = (item) => {
-    if (item.list !== null) {
-      const { title } = lists.find((list) => list._id === item.list);
+    if (item !== null) {
+      const { title } = lists.find((list) => list._id === item);
       setSelectedListItem(title);
     }
   };
 
   const handleSelectedTags = (item) => {
-    console.log("******************************");
-    console.log("handleSelectedTags");
-
-    /*
-      taskData.tags.forEach((e) =>
-        tags.map(
-          (tag) =>
-            e === tag._id && setTaskData({ ...taskData, tags: [tag] })
+    if (item.tags.length > 0) {
+      tags.map((tag) =>
+        item.tags.map(
+          (item) =>
+            item === tag._id &&
+            setSelectedTags((prevState) => [...prevState, tag])
         )
       );
-
-      */
-
-    //taskData.tags.forEach((e, i) => (taskData.tags[i] = ""));
-    tags.map((tag) =>
-      item.tags.map(
-        (i) =>
-          i === tag._id &&
-          setTaskData({
-            ...taskData,
-            tags: [tag],
-          })
-      )
-    );
+    }
   };
 
   const taskValidate = (title) => {
@@ -152,10 +138,17 @@ const TaskForm = () => {
 
   const addTask = () => {
     if (taskData.title !== "") {
-      dispatch(createTaskRequest(taskData));
-      dispatch(setDetailsAddTask(false));
-      dispatch(setOnAddingTask(false));
-      dispatch(setModal(false, null));
+      if (taskData._id === "") {
+        dispatch(createTaskRequest(taskData));
+        dispatch(setDetailsAddTask(false));
+        dispatch(setOnAddingTask(false));
+        dispatch(setModal(false, null));
+      } else {
+        dispatch(updateTaskRequest(taskData._id, taskData));
+        dispatch(setDetailsEditTask(false));
+        dispatch(setOnEditingTask(false));
+        dispatch(setModal(false, null));
+      }
     } else {
       setTitleValidation(true);
     }
@@ -176,25 +169,27 @@ const TaskForm = () => {
   useEffect(() => {
     if (selectedTask) {
       setTaskData({ ...selectedTask });
-      if (selectedTask.tags.length > 0) {
-        //taskData.tags.forEach((e, i) => (taskData.tags[i] = ""));
-        handleSelectedList(selectedTask);
-      }
+      handleSelectedList(selectedTask.list);
       handleSelectedTags(selectedTask);
     } else {
       setTaskData({ ...initialTask });
+      setSelectedTags([]);
+      setSelectedListItem("");
     }
   }, [selectedTask]);
 
-  console.log("selectedTask", selectedTask);
-  console.log("taskData-tags", taskData.tags);
-  console.log("taskData", taskData);
   return (
     <TaskFormWrapper
       onChange={() => {
-        !onAddingTask && dispatch(setOnAddingTask(true));
-        !onAddingTask &&
+        !selectedTask && !onAddingTask && dispatch(setOnAddingTask(true));
+        !selectedTask &&
+          !onAddingTask &&
           dispatch(setModal(false, [setOnAddingTask(false)], "proceed"));
+
+        selectedTask && !onEditingTask && dispatch(setOnEditingTask(true));
+        selectedTask &&
+          !onEditingTask &&
+          dispatch(setModal(false, [setOnEditingTask(false)], "proceed"));
       }}
     >
       <FormItem>
@@ -253,9 +248,21 @@ const TaskForm = () => {
         <FormItem>
           <LabelField>Where to List</LabelField>
           <ListField
-            value={selectedTask ? selectedListItem : { value: "Select a list" }}
+            value={
+              selectedTask
+                ? selectedListItem
+                : selectedListItem
+                ? selectedListItem
+                : "Select a list"
+            }
+            multiple={false}
             onChange={(e) => {
               e.preventDefault();
+              handleSelectedList(
+                e.target.options[e.target.options.selectedIndex].getAttribute(
+                  "data-key"
+                )
+              );
               setTaskData({
                 ...taskData,
                 list:
@@ -296,20 +303,26 @@ const TaskForm = () => {
         )}
         {tags && (
           <Paper>
-            {taskData.tags &&
-              taskData.tags.length > 0 &&
-              taskData.tags.map((tag) => (
-                <div key={tag._id} value={tag.title}>
+            {selectedTags &&
+              selectedTags.length > 0 &&
+              selectedTags.map((tag) => (
+                <div key={tag._id} data-key={tag._id} value={tag.title}>
                   {tag.title}
                   <IoCloseOutline
                     value={tag.title}
+                    data-key={tag._id}
                     onClick={(e) => {
                       e.preventDefault();
+                      setSelectedTags(
+                        selectedTags.filter(
+                          (item) =>
+                            item.title !== e.target.getAttribute("value")
+                        )
+                      );
                       setTaskData({
                         ...taskData,
                         tags: taskData.tags.filter(
-                          (item) =>
-                            item.title !== e.target.getAttribute("value")
+                          (item) => item !== e.target.getAttribute("data-key")
                         ),
                       });
                     }}
@@ -318,7 +331,7 @@ const TaskForm = () => {
               ))}
           </Paper>
         )}
-        {showTagList && <Dropdown data={tags} onSelect={handleTag} />}
+        {showTagList && <Dropdown data={tags} onSelect={handleAddTag} />}
       </FormRow>
 
       <Divider />
@@ -349,7 +362,22 @@ const TaskForm = () => {
                   "exit"
                 )
               );
-            !onAddingTask && dispatch(setDetailsAddTask(false));
+            !selectedTask &&
+              !onAddingTask &&
+              dispatch(setDetailsAddTask(false));
+
+            selectedTask &&
+              onEditingTask &&
+              dispatch(
+                setModal(
+                  true,
+                  [setDetailsEditTask(false), setOnEditingTask(false)],
+                  "exit"
+                )
+              );
+            selectedTask &&
+              !onEditingTask &&
+              dispatch(setDetailsEditTask(false));
           }}
         >
           Cancel

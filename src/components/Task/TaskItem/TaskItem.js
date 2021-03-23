@@ -21,46 +21,31 @@ const TaskItem = ({ task }) => {
   const onAddingTask = useSelector((state) => state.app.onAddingTask);
   const onEditingTask = useSelector((state) => state.app.onEditingTask);
   const modalActions = useSelector((state) => state.uiBehavior.modalActions);
-  const tags = useSelector((state) => state.tag.tags);
+  const selectedTask = useSelector((state) => state.app.selectedTask);
   const modalActionName = useSelector(
     (state) => state.uiBehavior.modalActionName
   );
 
-  /*
-  useEffect(() => {
-    console.log("******************************");
-    if (task.tags.length > 0) {
-      console.log("task", task);
-      task.tags.forEach((e, i) =>
-        tags.map((tag) => e === tag._id && console.log("selected", tag))
-      );
-    }
-  }, []);
-
-  */
-
   const dispatch = useDispatch();
+
+  const checkProcessing = () => {
+    if (onAddingTask || onEditingTask) {
+      dispatch(
+        setModal(
+          true,
+          [...modalActions, setDetailsViewTask(true), setSelectedTask(task)],
+          "proceed"
+        )
+      );
+    } else {
+      dispatch(setDetailsViewTask(true));
+      dispatch(setSelectedTask(task));
+    }
+  };
   return (
     <CardWrapper>
       <CardHeader>
-        <CardTitle
-          onClick={() => {
-            onAddingTask &&
-              dispatch(
-                setModal(
-                  true,
-                  [
-                    ...modalActions,
-                    setDetailsViewTask(true),
-                    setSelectedTask(task),
-                  ],
-                  modalActionName
-                )
-              );
-            !onAddingTask && dispatch(setDetailsViewTask(true));
-            !onAddingTask && dispatch(setSelectedTask(task));
-          }}
-        >
+        <CardTitle onClick={() => checkProcessing()}>
           <IoSquareOutline /> {title}
         </CardTitle>
         <CardNotification>{timeTag}</CardNotification>
