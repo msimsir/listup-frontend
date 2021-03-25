@@ -62,6 +62,16 @@ const Details = () => {
             </DetailsHeaderElement>
           </>
         )}
+        {addTaskState && (
+          <DetailsHeaderElement>
+            <LabelField>Create Task</LabelField>
+          </DetailsHeaderElement>
+        )}
+        {editTaskState && (
+          <DetailsHeaderElement>
+            <LabelField>Edit Task</LabelField>
+          </DetailsHeaderElement>
+        )}
       </DetailsHeader>
       <DetailsSectionOne>
         {(addTaskState || editTaskState) && <TaskForm />}

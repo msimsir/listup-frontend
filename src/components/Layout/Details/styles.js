@@ -7,7 +7,7 @@ export const DetailsContainer = styled.div`
   background-color: #f8f8f8;
   display: grid;
   /*grid-template-columns: auto;*/
-  grid-template-rows: 0.3fr 1.5fr 1.5fr;
+  grid-template-rows: 0.2fr 1.5fr 1.5fr;
   grid-template-areas:
     "details-header"
     "details-section-one"
@@ -30,6 +30,7 @@ export const DetailsHeaderElement = styled.div`
     font-size: 1.2rem;
     color: #fb743e;
     font-weight: 700;
+    padding: 0.5rem;
   }
 
   & > svg {
