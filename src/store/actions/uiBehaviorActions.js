@@ -9,6 +9,8 @@ import {
   SET_DETAILS_VIEW_TASK,
   SET_DETAILS_ADD_TASK,
   SET_DETAILS_EDIT_TASK,
+  SET_MAKE_NEW_TASK,
+  SET_MAKE_ROUTINE,
   SET_MODAL,
 } from "../../constants/action-types";
 
@@ -55,8 +57,14 @@ export const setDetailsEditTask = (toggleState) => {
   return { type: SET_DETAILS_EDIT_TASK, payload: toggleState };
 };
 
+export const setMakeNewTask = (toggleState) => {
+  return { type: SET_MAKE_NEW_TASK, payload: toggleState };
+};
+
+export const setMakeRoutine = (toggleState) => {
+  return { type: SET_MAKE_ROUTINE, payload: toggleState };
+};
+
 export const setModal = (toggleState, activity, name) => {
   return { type: SET_MODAL, payload: { toggleState, activity, name } };
 };
-
-

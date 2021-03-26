@@ -10,6 +10,8 @@ import {
   SET_DETAILS_VIEW_TASK,
   SET_DETAILS_ADD_TASK,
   SET_DETAILS_EDIT_TASK,
+  SET_MAKE_NEW_TASK,
+  SET_MAKE_ROUTINE,
   SET_MODAL,
 } from "../../constants/action-types";
 
@@ -31,6 +33,8 @@ const initialState = {
   detailsViewTask: false,
   detailsAddTask: false,
   detailsEditTask: false,
+  makeNewTask: false,
+  makeRoutine: false,
   modalView: false,
   modalActions: null,
   modalActionName: [],
@@ -104,6 +108,18 @@ export const uiBehavior = (state = initialState, action) => {
         detailsEditTask: action.payload,
         detailsAddTask: false,
         detailsViewTask: false,
+      };
+
+    case SET_MAKE_NEW_TASK:
+      return {
+        ...state,
+        makeNewTask: action.payload,
+      };
+
+    case SET_MAKE_ROUTINE:
+      return {
+        ...state,
+        makeRoutine: action.payload,
       };
 
     case SET_MODAL:
