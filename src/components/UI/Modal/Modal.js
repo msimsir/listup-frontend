@@ -24,9 +24,14 @@ const Modal = () => {
                 <IoAlertCircleOutline />
                 <Header>Are you sure you want to {modalActionName} ?</Header>
               </Row>
-              <Row>
-                <LabelField size="small">Unsaved work will be lost.</LabelField>
-              </Row>
+              {modalActionName !== "delete" && (
+                <Row>
+                  <LabelField size="small">
+                    Unsaved work will be lost.
+                  </LabelField>
+                </Row>
+              )}
+
               <Row>
                 <Button
                   primary
