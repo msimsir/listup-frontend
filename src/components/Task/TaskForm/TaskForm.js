@@ -113,6 +113,8 @@ const TaskForm = () => {
     if (item !== null) {
       const { title } = lists.find((list) => list._id === item);
       setSelectedListItem(title);
+    } else {
+      setSelectedListItem("Select a list");
     }
   };
 
@@ -259,9 +261,11 @@ const TaskForm = () => {
             onChange={(e) => {
               e.preventDefault();
               handleSelectedList(
-                e.target.options[e.target.options.selectedIndex].getAttribute(
-                  "data-key"
-                )
+                e.target.options.selectedIndex === 0
+                  ? null
+                  : e.target.options[
+                      e.target.options.selectedIndex
+                    ].getAttribute("data-key")
               );
               setTaskData({
                 ...taskData,
@@ -274,7 +278,7 @@ const TaskForm = () => {
               });
             }}
           >
-            <option key="title" data-key="title" value="Select a list">
+            <option key="title" data-key="Select a list" value="Select a list">
               Select a list
             </option>
             {lists.map((list) => (
