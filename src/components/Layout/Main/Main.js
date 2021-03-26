@@ -20,6 +20,7 @@ import Modal from "../../UI/Modal/Modal";
 import Popup from "../../UI/Popup/Popup";
 import Settings from "../../Settings/Settings";
 import Trash from "../../Trash/Trash";
+import MakeNewTask from "../../Task/MakeNewTask/MakeNewTask";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const Main = () => {
   const selectedSidebarMenu = useSelector(
     (state) => state.uiBehavior.selectedSidebarMenu
   );
+  const makeNewTask = useSelector((state) => state.uiBehavior.makeNewTask);
   const onAddingTask = useSelector((state) => state.app.onAddingTask);
   const onEditingTask = useSelector((state) => state.app.onEditingTask);
 
@@ -62,6 +64,7 @@ const Main = () => {
   return (
     <>
       <Modal />
+      {makeNewTask && <MakeNewTask />}
       <MainContainer>
         <MainHeader>
           <span>{mainTitle}</span>
