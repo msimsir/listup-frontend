@@ -71,6 +71,7 @@ const MakeNewTask = () => {
     setNewTask({
       ...selectedTask,
       trashStatus: false,
+      status: false,
       createdDate: formatDate(new Date()),
       endDate: formatDate(incrementDate(new Date(), 1)),
       timeTag: "Today",

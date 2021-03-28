@@ -21,6 +21,7 @@ import Popup from "../../UI/Popup/Popup";
 import Settings from "../../Settings/Settings";
 import Trash from "../../Trash/Trash";
 import MakeNewTask from "../../Task/MakeNewTask/MakeNewTask";
+import { sidebarMenuItems } from "../../../constants/ui-elements";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -80,11 +81,6 @@ const Main = () => {
               <IoAddCircleOutline
                 onClick={() => {
                   checkProcessing();
-                  /*
-                !detailsAddTask && dispatch(setDetailsAddTask(true));
-                !detailsAddTask && dispatch(setSelectedTask(null));
-
-                */
                 }}
               />
 
@@ -97,11 +93,13 @@ const Main = () => {
           <Search />
         </MainContentSearchWrapper>
         <MainContent>
-          {(selectedSidebarMenu === "Today" ||
-            selectedSidebarMenu === "Tomorrow" ||
-            selectedSidebarMenu === "Next 7 Days") && <TaskList />}
-          {selectedSidebarMenu === "Settings" && <Settings />}
-          {selectedSidebarMenu === "Trash" && <Trash />}
+          {(selectedSidebarMenu === sidebarMenuItems[0] ||
+            selectedSidebarMenu === sidebarMenuItems[1] ||
+            selectedSidebarMenu === sidebarMenuItems[2] ||
+            selectedSidebarMenu === sidebarMenuItems[5] ||
+            selectedSidebarMenu === sidebarMenuItems[6]) && <TaskList />}
+          {selectedSidebarMenu === sidebarMenuItems[7] && <Settings />}
+          {selectedSidebarMenu === sidebarMenuItems[3] && <Trash />}
         </MainContent>
       </MainContainer>
     </>
