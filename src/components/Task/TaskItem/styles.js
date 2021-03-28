@@ -28,8 +28,7 @@ export const CardTitle = styled.div`
       color: #fb743e;
     }
   }
-
-  &:hover {
+  & > span:hover {
     font-weight: 700;
   }
 `;
