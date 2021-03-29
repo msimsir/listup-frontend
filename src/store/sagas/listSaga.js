@@ -18,7 +18,6 @@ function* handleGetRequest(action) {
     yield delay(1000);
     yield put({ type: GET_LIST_REQUEST_SUCCESS, payload: data });
   } catch (error) {
-    console.log("handleRequest", error);
     yield put({ type: LIST_REQUEST_FAILED, payload: error });
   }
 }
