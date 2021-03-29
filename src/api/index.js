@@ -22,3 +22,11 @@ export const createTag = (newTag) => axios.post(tagUrl, newTag);
 export const updateTag = (id, updatedTag) =>
   axios.patch(`${tagUrl}/${id}`, updatedTag);
 export const deleteTag = (id) => axios.delete(`${tagUrl}/${id}`);
+
+const subTaskUrl = "http://localhost:5000/subtasks";
+
+export const getSubTask = () => axios.get(subTaskUrl);
+export const createSubTask = (newSubTask) => axios.post(subTaskUrl, newSubTask);
+export const updateSubTask = (id, updatedSubTask) =>
+  axios.patch(`${subTaskUrl}/${id}`, updatedSubTask);
+export const deleteSubTask = (id) => axios.delete(`${subTaskUrl}/${id}`);
