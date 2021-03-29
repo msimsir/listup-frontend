@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { IoCloseOutline, IoPricetagOutline } from "react-icons/io5";
+import {
+  IoCloseOutline,
+  IoPricetagOutline,
+  IoRocketOutline,
+} from "react-icons/io5";
 import Button from "../../UI/Button/Button";
 import InputField from "../../UI/InputField/InputField";
 import LabelField from "../../UI/LabelField/LabelField";
@@ -12,11 +16,18 @@ import Paper from "../../UI/Paper/Paper";
 import Popup from "../../UI/Popup/Popup";
 import Dropdown from "../../UI/Dropdown/Dropdown";
 
-import { TaskFormWrapper, FormItem, FormRow, Divider } from "./styles";
+import {
+  TaskFormWrapper,
+  FormItem,
+  FormRow,
+  Divider,
+  FormRowLeft,
+  FormRowItemGroup,
+} from "./styles";
 import { timeTags } from "../../../constants/ui-elements";
 import formatDate from "../../../utils/formatDate";
 
-import { initList } from "../../../store/actions/appActions";
+import { initList, setCurrentSubTask } from "../../../store/actions/appActions";
 import { initTag } from "../../../store/actions/appActions";
 import {
   setDetailsAddTask,
@@ -34,6 +45,10 @@ import {
   createTaskRequest,
   updateTaskRequest,
 } from "../../../store/actions/taskActions";
+import {
+  createSubTaskRequest,
+  deleteSubTaskRequest,
+} from "../../../store/actions/subTaskActions";
 
 const initialTask = {
   _id: "",
@@ -48,8 +63,16 @@ const initialTask = {
   trashStatus: false,
 };
 
+const initialSubTask = {
+  _id: "",
+  title: "",
+  status: false,
+};
+
 const TaskForm = () => {
   const [taskData, setTaskData] = useState(initialTask);
+  const [subTaskData, setSubTaskData] = useState(initialSubTask);
+  const [formSubTasks, setFormSubTasks] = useState([]);
   const [datePicker, setDatePicker] = useState(false);
   const [showTagList, setShowTagList] = useState(false);
   const [showTagPopup, setShowTagPopup] = useState(false);
@@ -59,6 +82,8 @@ const TaskForm = () => {
   const dispatch = useDispatch();
   const lists = useSelector((state) => state.list.lists);
   const tags = useSelector((state) => state.tag.tags);
+  const subTasks = useSelector((state) => state.subTask.subTasks);
+  const currentSubTask = useSelector((state) => state.app.currentSubTask);
   const sidebarInit = useSelector((state) => state.uiBehavior.sidebarInit);
   const tagInitialize = useSelector(
     (state) => state.uiBehavior.sidebarTagInitialize
@@ -130,6 +155,18 @@ const TaskForm = () => {
     }
   };
 
+  const handleListedSubTask = (item) => {
+    if (item.subtasks.length > 0) {
+      subTasks.map((subTask) =>
+        item.subtasks.map(
+          (item) =>
+            item === subTask._id &&
+            setFormSubTasks((prevState) => [...prevState, subTask])
+        )
+      );
+    }
+  };
+
   const taskValidate = (title) => {
     if (title === "") {
       setTitleValidation(true);
@@ -145,6 +182,7 @@ const TaskForm = () => {
         dispatch(setDetailsAddTask(false));
         dispatch(setOnAddingTask(false));
         dispatch(setModal(false, null));
+        dispatch(setCurrentSubTask(null));
       } else {
         dispatch(updateTaskRequest(taskData._id, taskData));
         dispatch(setDetailsEditTask(false));
@@ -173,12 +211,24 @@ const TaskForm = () => {
       setTaskData({ ...selectedTask });
       handleSelectedList(selectedTask.list);
       handleSelectedTags(selectedTask);
+      handleListedSubTask(selectedTask);
     } else {
       setTaskData({ ...initialTask });
       setSelectedTags([]);
       setSelectedListItem("");
+      setFormSubTasks([]);
     }
   }, [selectedTask]);
+
+  useEffect(() => {
+    if (currentSubTask) {
+      setFormSubTasks([...formSubTasks, currentSubTask]);
+      setTaskData({
+        ...taskData,
+        subtasks: [...taskData.subtasks, currentSubTask._id],
+      });
+    }
+  }, [currentSubTask]);
 
   return (
     <TaskFormWrapper
@@ -342,18 +392,59 @@ const TaskForm = () => {
       <FormItem>
         <LabelField>Sub Tasks</LabelField>
       </FormItem>
+      {formSubTasks &&
+        formSubTasks.length > 0 &&
+        formSubTasks.map((formSubTask, index) => (
+          <FormRowLeft key={index}>
+            <FormRowItemGroup>
+              <IoRocketOutline />
+              <LabelField>{formSubTask.title}</LabelField>
+            </FormRowItemGroup>
+            <IoCloseOutline
+              onClick={() => {
+                dispatch(deleteSubTaskRequest(formSubTask._id));
+                setFormSubTasks(
+                  formSubTasks.filter(
+                    (subtask) => subtask._id !== formSubTask._id
+                  )
+                );
+                setTaskData({
+                  ...taskData,
+                  subtasks: taskData.subtasks.filter(
+                    (subtask) => subtask !== formSubTask._id
+                  ),
+                });
+              }}
+            />
+          </FormRowLeft>
+        ))}
+
       <FormRow>
         <InputField
-          onChange={(e) => setTaskData({ ...taskData, title: e.target.value })}
+          value={subTaskData.title}
+          onChange={(e) =>
+            setSubTaskData({
+              ...subTaskData,
+              title: e.target.value,
+              status: false,
+            })
+          }
         />
-        <Button size="small" primary>
+        <Button
+          size="small"
+          primary
+          onClick={() => {
+            dispatch(createSubTaskRequest(subTaskData));
+            setSubTaskData(initialSubTask);
+          }}
+        >
           Add
         </Button>
       </FormRow>
 
       <FormRow>
         <Button size="large" primary onClick={() => addTask()}>
-          {editTaskState ? <>Edit</> : <>Add</>}
+          {editTaskState ? <>Edit</> : <>Save</>}
         </Button>
         <Button
           size="large"

@@ -29,6 +29,32 @@ export const FormRow = styled.div`
   }
 `;
 
+export const FormRowLeft = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  position: relative;
+
+  & > :last-child {
+    margin-right: 0.5rem;
+    &:hover {
+      font-size: 1rem;
+      color: #fb743e;
+    }
+  }
+`;
+
+export const FormRowItemGroup = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  & > :first-child {
+    margin-right: 0.5rem;
+  }
+`;
+
 export const Divider = styled.div`
   border-bottom: 1px solid rgba(112, 112, 112, 0.4);
   margin-top: 1rem;
