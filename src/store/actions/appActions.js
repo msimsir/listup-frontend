@@ -7,12 +7,15 @@ import {
   INIT_LIST_SUCCESS,
   INIT_TAG,
   INIT_TAG_SUCCESS,
+  INIT_SUBTASK,
+  INIT_SUBTASK_SUCCESS,
   INIT_SCHEDULE,
   INIT_SCHEDULE_SUCCESS,
   INIT_FAILED,
   SET_SELECTED_TASK,
   ON_ADDING_TASK,
   ON_EDITING_TASK,
+  SET_CURRENT_SUBTASK,
 } from "../../constants/action-types";
 
 export const initDashboard = () => {
@@ -47,6 +50,14 @@ export const successInitTag = () => {
   return { type: INIT_TAG_SUCCESS };
 };
 
+export const initSubTask = () => {
+  return { type: INIT_SUBTASK };
+};
+
+export const successInitSubTask = () => {
+  return { type: INIT_SUBTASK_SUCCESS };
+};
+
 export const initSchedule = () => {
   return { type: INIT_SCHEDULE };
 };
@@ -69,4 +80,8 @@ export const setOnAddingTask = (onAdding) => {
 
 export const setOnEditingTask = (onEditing) => {
   return { type: ON_EDITING_TASK, payload: onEditing };
+};
+
+export const setCurrentSubTask = (currentSubTask) => {
+  return { type: SET_CURRENT_SUBTASK, payload: currentSubTask };
 };
