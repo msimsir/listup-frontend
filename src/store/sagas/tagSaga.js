@@ -16,7 +16,6 @@ import {
 function* handleGetRequest(action) {
   try {
     const { data } = yield call(api.getTag);
-    yield delay(1000);
     yield put({ type: GET_TAG_REQUEST_SUCCESS, payload: data });
   } catch (error) {
     yield put({ type: TAG_REQUEST_FAILED, paylaod: error });

@@ -5,7 +5,6 @@ import { uiBehavior } from "./uiBehavior";
 import { task } from "./task";
 import { list } from "./list";
 import { tag } from "./tag";
-import { subTask } from "./subTask";
 
 const rootReducer = combineReducers({
   app,
@@ -13,7 +12,6 @@ const rootReducer = combineReducers({
   task,
   list,
   tag,
-  subTask,
 });
 
 export default rootReducer;

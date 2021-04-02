@@ -9,8 +9,6 @@ import {
   INIT_LIST_SUCCESS,
   INIT_TAG,
   INIT_TAG_SUCCESS,
-  INIT_SUBTASK,
-  INIT_SUBTASK_SUCCESS,
   INIT_SCHEDULE,
   INIT_SCHEDULE_SUCCESS,
   INIT_FAILED,
@@ -20,7 +18,6 @@ import {
   GET_TASK_REQUEST,
   GET_LIST_REQUEST,
   GET_TAG_REQUEST,
-  GET_SUBTASK_REQUEST,
 } from "../../constants/action-types";
 
 function* handleInitDashboard(action) {
@@ -32,9 +29,7 @@ function* handleInitDashboard(action) {
     yield put({ type: INIT_LIST });
     // get tags
     yield put({ type: INIT_TAG });
-    // get subtasks
-    yield put({ type: INIT_SUBTASK });
-    yield delay(4000);
+    yield delay(2000);
     yield put({ type: INIT_DASHBOARD_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
@@ -44,7 +39,6 @@ function* handleInitDashboard(action) {
 function* handleInitTask(action) {
   try {
     yield put({ type: GET_TASK_REQUEST });
-    yield delay(1000);
     yield put({ type: INIT_TASK_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
@@ -57,7 +51,6 @@ function* handleInitList(action) {
     yield put({ type: GET_LIST_REQUEST });
     // set state of sidebarlistinit
     yield put({ type: INIT_SIDEBAR_LIST });
-    yield delay(1000);
     yield put({ type: INIT_LIST_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
@@ -70,21 +63,9 @@ function* handleInitTag(action) {
     yield put({ type: GET_TAG_REQUEST });
     // set state of sidebartaginit
     yield put({ type: INIT_SIDEBAR_TAG });
-    yield delay(1000);
     yield put({ type: INIT_TAG_SUCCESS });
   } catch (error) {
     yield put({ type: INIT_FAILED, payload: error });
-  }
-}
-
-function* handleInitSubTask(action) {
-  try {
-    // get subtasks
-    yield put({ type: GET_SUBTASK_REQUEST });
-    yield delay(1000);
-    yield put({ type: INIT_SUBTASK_SUCCESS });
-  } catch (error) {
-    yield put({ type: INIT_FAILED, paylaod: error });
   }
 }
 
@@ -106,7 +87,6 @@ export function* appWatcherSaga() {
     takeLatest(INIT_TASK, handleInitTask),
     takeLatest(INIT_LIST, handleInitList),
     takeLatest(INIT_TAG, handleInitTag),
-    takeLatest(INIT_SUBTASK, handleInitSubTask),
     takeLatest(INIT_SCHEDULE, handleInitSchedule),
   ]);
 }

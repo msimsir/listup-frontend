@@ -8,6 +8,9 @@ import {
   DELETE_TASK_REQUEST,
   DELETE_TASK_REQUEST_SUCCESS,
   TASK_REQUEST_FAILED,
+  UPDATE_SUBTASK_REQUEST,
+  UPDATE_SUBTASK_REQUEST_SUCCESS,
+  SUBTASK_REQUEST_FAILED,
 } from "../../constants/action-types";
 
 const initialState = {
@@ -76,6 +79,27 @@ export const task = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        error: action.payload,
+      };
+
+    case UPDATE_SUBTASK_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case UPDATE_SUBTASK_REQUEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        tasks: state.tasks.map((task) =>
+          task._id === action.payload._id ? action.payload : task
+        ),
+      };
+
+    case SUBTASK_REQUEST_FAILED:
+      return {
+        ...state,
         error: action.payload,
       };
 

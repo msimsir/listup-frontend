@@ -15,7 +15,6 @@ import {
 function* handleGetRequest(action) {
   try {
     const { data } = yield call(api.getList);
-    yield delay(1000);
     yield put({ type: GET_LIST_REQUEST_SUCCESS, payload: data });
   } catch (error) {
     yield put({ type: LIST_REQUEST_FAILED, payload: error });

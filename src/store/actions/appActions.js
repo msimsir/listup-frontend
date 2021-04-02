@@ -15,7 +15,6 @@ import {
   SET_SELECTED_TASK,
   ON_ADDING_TASK,
   ON_EDITING_TASK,
-  SET_CURRENT_SUBTASK,
 } from "../../constants/action-types";
 
 export const initDashboard = () => {
@@ -80,8 +79,4 @@ export const setOnAddingTask = (onAdding) => {
 
 export const setOnEditingTask = (onEditing) => {
   return { type: ON_EDITING_TASK, payload: onEditing };
-};
-
-export const setCurrentSubTask = (currentSubTask) => {
-  return { type: SET_CURRENT_SUBTASK, payload: currentSubTask };
 };

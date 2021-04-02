@@ -15,7 +15,6 @@ import {
   SET_SELECTED_TASK,
   ON_ADDING_TASK,
   ON_EDITING_TASK,
-  SET_CURRENT_SUBTASK,
 } from "../../constants/action-types";
 
 const initialState = {
@@ -24,7 +23,6 @@ const initialState = {
   selectedTask: null,
   onAddingTask: false,
   onEditingTask: false,
-  currentSubTask: null,
 };
 export const app = (state = initialState, action) => {
   switch (action.type) {
@@ -64,13 +62,7 @@ export const app = (state = initialState, action) => {
         ...state,
         onEditingTask: action.payload,
       };
-
-    case SET_CURRENT_SUBTASK:
-      return {
-        ...state,
-        currentSubTask: action.payload,
-      };
-
+   
     default:
       return state;
   }

@@ -8,6 +8,9 @@ import {
   DELETE_TASK_REQUEST,
   DELETE_TASK_REQUEST_SUCCESS,
   TASK_REQUEST_FAILED,
+  UPDATE_SUBTASK_REQUEST,
+  UPDATE_SUBTASK_REQUEST_SUCCESS,
+  SUBTASK_REQUEST_FAILED,
 } from "../../constants/action-types";
 
 export const getTaskRequest = () => {
@@ -44,4 +47,16 @@ export const successDeleteTaskRequest = (task) => {
 
 export const failedTaskRequest = (error) => {
   return { type: TASK_REQUEST_FAILED, payload: error };
+};
+
+export const updateSubTaskRequest = (id, task) => {
+  return { type: UPDATE_SUBTASK_REQUEST, payload: { id, task } };
+};
+
+export const successUpdateSubTaskRequest = (task) => {
+  return { type: UPDATE_SUBTASK_REQUEST_SUCCESS, payload: task };
+};
+
+export const failedSubTaskRequest = (error) => {
+  return { type: SUBTASK_REQUEST_FAILED, payload: error };
 };
