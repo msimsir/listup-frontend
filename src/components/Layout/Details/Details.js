@@ -79,7 +79,7 @@ const Details = () => {
           ? null
           : onEditingTask
           ? null
-          : viewTaskState && <TaskDetails task={selectedTask} />}
+          : viewTaskState && <TaskDetails />}
       </DetailsSectionOne>
       <DetailsSectionTwo></DetailsSectionTwo>
     </DetailsContainer>

@@ -3,19 +3,23 @@ import styled from "styled-components";
 export const TaskDetailsWrapper = styled.div`
   padding: 1rem 2rem;
   width: 100%;
+  position: relative;
 `;
 
 export const TaskDetailsTitleSection = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+
   & > svg {
     margin-right: 0.5rem;
     &:hover {
       font-size: 1rem;
-      color: #fb743e;
-      font-weight: 700;
+      color: ${({ done }) => done === false && "#fb743e"};
     }
+    font-size: ${({ done }) => done === true && "0.8rem"};
+    color: ${({ done }) => done === true && " #fb743e"};
+    font-weight: ${({ done }) => done === true && "400"};
   }
 `;
 
@@ -31,9 +35,14 @@ export const TaskDetailsElementGroup = styled.div`
     margin-top: 0.25rem;
     font-size: 0.8rem;
     margin-right: 0.5rem;
+    color: ${({ doneSubTask }) =>
+      doneSubTask === true ? "#fb743e" : "#3e3e56"};
+    font-weight: ${({ doneSubTask }) => (doneSubTask === true ? "700" : "400")};
+
     &:hover {
       font-size: 1rem;
-      color: #fb743e;
+      color: ${({ doneSubTask }) =>
+        doneSubTask === false ? "#fb743e" : "#3e3e56"};
       font-weight: 700;
     }
   }
