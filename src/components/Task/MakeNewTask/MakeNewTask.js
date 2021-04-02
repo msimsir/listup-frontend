@@ -17,9 +17,7 @@ import {
   MakeNewTaskActions,
 } from "./styles";
 import { timeTags } from "../../../constants/ui-elements";
-import LabelField from "../../UI/LabelField/LabelField";
 import Button from "../../UI/Button/Button";
-import Divider from "../../UI/Divider/Divider";
 import formatDate from "../../../utils/formatDate";
 import incrementDate from "../../../utils/incrementDate";
 import ListField from "../../UI/ListField/ListField";

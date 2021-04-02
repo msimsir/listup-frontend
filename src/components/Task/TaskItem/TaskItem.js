@@ -21,7 +21,7 @@ import Button from "../../UI/Button/Button";
 import { updateTaskRequest } from "../../../store/actions/taskActions";
 
 const TaskItem = ({ task }) => {
-  const { _id, title, timeTag, subTasks, endDate } = task;
+  const { _id, title, timeTag, endDate } = task;
   const onAddingTask = useSelector((state) => state.app.onAddingTask);
   const onEditingTask = useSelector((state) => state.app.onEditingTask);
   const modalActions = useSelector((state) => state.uiBehavior.modalActions);
@@ -49,7 +49,7 @@ const TaskItem = ({ task }) => {
     const currentDate = moment();
     const endDateModified = moment(endDate);
     const duration = moment.duration(endDateModified.diff(currentDate));
-    const days = duration.days();
+    const days = duration.days() - 1;
     console.log("days", days);
 
     if (days === 0 || days === 1) {
@@ -81,16 +81,13 @@ const TaskItem = ({ task }) => {
       </CardHeader>
       <CardContent>
         {/** Controlling subtask if it exists, includes just first element in this card */}
+        
         <CardElementGroup>
-          {subTasks && subTasks.length > 0 && (
-            <>
-              <IoRocketOutline />
-              <CardElement>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </CardElement>
-            </>
-          )}
+         
         </CardElementGroup>
+
+
+        
         <CardElementGroup>
           {(selectedSidebarMenu === sidebarMenuItems[5] ||
             selectedSidebarMenu === sidebarMenuItems[6]) && (
