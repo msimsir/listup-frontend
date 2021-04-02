@@ -5,6 +5,7 @@ import {
   IoPricetagOutline,
   IoRocketOutline,
 } from "react-icons/io5";
+import { v4 as uuid } from "uuid";
 import Button from "../../UI/Button/Button";
 import InputField from "../../UI/InputField/InputField";
 import LabelField from "../../UI/LabelField/LabelField";
@@ -27,7 +28,7 @@ import {
 import { timeTags } from "../../../constants/ui-elements";
 import formatDate from "../../../utils/formatDate";
 
-import { initList, setCurrentSubTask } from "../../../store/actions/appActions";
+import { initList } from "../../../store/actions/appActions";
 import { initTag } from "../../../store/actions/appActions";
 import {
   setDetailsAddTask,
@@ -45,10 +46,6 @@ import {
   createTaskRequest,
   updateTaskRequest,
 } from "../../../store/actions/taskActions";
-import {
-  createSubTaskRequest,
-  deleteSubTaskRequest,
-} from "../../../store/actions/subTaskActions";
 
 const initialTask = {
   _id: "",
@@ -72,7 +69,6 @@ const initialSubTask = {
 const TaskForm = () => {
   const [taskData, setTaskData] = useState(initialTask);
   const [subTaskData, setSubTaskData] = useState(initialSubTask);
-  const [formSubTasks, setFormSubTasks] = useState([]);
   const [datePicker, setDatePicker] = useState(false);
   const [showTagList, setShowTagList] = useState(false);
   const [showTagPopup, setShowTagPopup] = useState(false);
@@ -82,8 +78,6 @@ const TaskForm = () => {
   const dispatch = useDispatch();
   const lists = useSelector((state) => state.list.lists);
   const tags = useSelector((state) => state.tag.tags);
-  const subTasks = useSelector((state) => state.subTask.subTasks);
-  const currentSubTask = useSelector((state) => state.app.currentSubTask);
   const sidebarInit = useSelector((state) => state.uiBehavior.sidebarInit);
   const tagInitialize = useSelector(
     (state) => state.uiBehavior.sidebarTagInitialize
@@ -100,24 +94,24 @@ const TaskForm = () => {
   );
 
   const handleCalendar = (date) => {
-    date === "Next 7 Days" ? setDatePicker(true) : setDatePicker(false);
+    date === timeTags[2] ? setDatePicker(true) : setDatePicker(false);
   };
 
   const handleEndDate = (date) => {
-    if (date === "Tomorrow") {
+    if (date === timeTags[1]) {
       setTaskData({
         ...taskData,
-        timeTag: "Tomorrow",
+        timeTag: timeTags[1],
         endDate: formatDate(incrementDate(new Date(), 2)),
       });
-    } else if (date === "Today") {
+    } else if (date === timeTags[0]) {
       setTaskData({
         ...taskData,
-        timeTag: "Today",
+        timeTag: timeTags[0],
         endDate: formatDate(incrementDate(new Date(), 1)),
       });
     } else {
-      setTaskData({ ...taskData, timeTag: "Next 7 Days" });
+      setTaskData({ ...taskData, timeTag: timeTags[2] });
     }
   };
 
@@ -155,18 +149,6 @@ const TaskForm = () => {
     }
   };
 
-  const handleListedSubTask = (item) => {
-    if (item.subtasks.length > 0) {
-      subTasks.map((subTask) =>
-        item.subtasks.map(
-          (item) =>
-            item === subTask._id &&
-            setFormSubTasks((prevState) => [...prevState, subTask])
-        )
-      );
-    }
-  };
-
   const taskValidate = (title) => {
     if (title === "") {
       setTitleValidation(true);
@@ -182,7 +164,6 @@ const TaskForm = () => {
         dispatch(setDetailsAddTask(false));
         dispatch(setOnAddingTask(false));
         dispatch(setModal(false, null));
-        dispatch(setCurrentSubTask(null));
       } else {
         dispatch(updateTaskRequest(taskData._id, taskData));
         dispatch(setDetailsEditTask(false));
@@ -211,24 +192,12 @@ const TaskForm = () => {
       setTaskData({ ...selectedTask });
       handleSelectedList(selectedTask.list);
       handleSelectedTags(selectedTask);
-      handleListedSubTask(selectedTask);
     } else {
       setTaskData({ ...initialTask });
       setSelectedTags([]);
       setSelectedListItem("");
-      setFormSubTasks([]);
     }
   }, [selectedTask]);
-
-  useEffect(() => {
-    if (currentSubTask) {
-      setFormSubTasks([...formSubTasks, currentSubTask]);
-      setTaskData({
-        ...taskData,
-        subtasks: [...taskData.subtasks, currentSubTask._id],
-      });
-    }
-  }, [currentSubTask]);
 
   return (
     <TaskFormWrapper
@@ -392,26 +361,20 @@ const TaskForm = () => {
       <FormItem>
         <LabelField>Sub Tasks</LabelField>
       </FormItem>
-      {formSubTasks &&
-        formSubTasks.length > 0 &&
-        formSubTasks.map((formSubTask, index) => (
+      {taskData.subtasks &&
+        taskData.subtasks.length > 0 &&
+        taskData.subtasks.map((task, index) => (
           <FormRowLeft key={index}>
             <FormRowItemGroup>
               <IoRocketOutline />
-              <LabelField>{formSubTask.title}</LabelField>
+              <LabelField>{task.title}</LabelField>
             </FormRowItemGroup>
             <IoCloseOutline
               onClick={() => {
-                dispatch(deleteSubTaskRequest(formSubTask._id));
-                setFormSubTasks(
-                  formSubTasks.filter(
-                    (subtask) => subtask._id !== formSubTask._id
-                  )
-                );
                 setTaskData({
                   ...taskData,
                   subtasks: taskData.subtasks.filter(
-                    (subtask) => subtask !== formSubTask._id
+                    (subtask) => subtask._id !== task._id
                   ),
                 });
               }}
@@ -425,6 +388,7 @@ const TaskForm = () => {
           onChange={(e) =>
             setSubTaskData({
               ...subTaskData,
+              _id: uuid(),
               title: e.target.value,
               status: false,
             })
@@ -434,8 +398,11 @@ const TaskForm = () => {
           size="small"
           primary
           onClick={() => {
-            dispatch(createSubTaskRequest(subTaskData));
             setSubTaskData(initialSubTask);
+            setTaskData({
+              ...taskData,
+              subtasks: [...taskData.subtasks, subTaskData],
+            });
           }}
         >
           Add
