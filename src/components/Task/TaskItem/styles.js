@@ -24,11 +24,13 @@ export const CardTitle = styled.div`
   cursor: pointer;
   & > svg {
     margin-right: 0.5rem;
+    /*
     &:hover {
       color: #fb743e;
     }
+    */
   }
-  & > span:hover {
+  &:hover {
     font-weight: 700;
   }
 `;

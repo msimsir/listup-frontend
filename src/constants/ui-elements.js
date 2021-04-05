@@ -1,4 +1,4 @@
-export const searchPlaceholder = "Search task item, tag and list";
+export const searchPlaceholder = "Search task item";
 
 export const sidebarMenuItems = [
   "Today",

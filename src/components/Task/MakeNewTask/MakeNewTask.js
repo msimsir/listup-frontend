@@ -73,10 +73,12 @@ const MakeNewTask = () => {
       createdDate: formatDate(new Date()),
       endDate: formatDate(incrementDate(new Date(), 1)),
       timeTag: "Today",
+      subtasks: selectedTask.subtasks.map(
+        (subtask) => ({ ...subtask, status: false })
+      ),
     });
   }, [selectedTask]);
 
-  console.log("makenewTask", newTask);
   return (
     <>
       <Background />
@@ -92,7 +94,7 @@ const MakeNewTask = () => {
             <MakeNewTaskElement>
               <IoCheckmarkOutline />
               {newTask.subtasks && newTask.subtasks.length > 0 && (
-                <>Sub Tasks: ${newTask.subTasks.length} item</>
+                <>Sub Tasks: {newTask.subtasks.length} item</>
               )}
               {newTask.subtasks && newTask.subtasks.length === 0 && (
                 <>No sub tasks</>

@@ -21,7 +21,7 @@ import Button from "../../UI/Button/Button";
 import { updateTaskRequest } from "../../../store/actions/taskActions";
 
 const TaskItem = ({ task }) => {
-  const { _id, title, timeTag, endDate } = task;
+  const { _id, title, timeTag, endDate, status, subtasks } = task;
   const onAddingTask = useSelector((state) => state.app.onAddingTask);
   const onEditingTask = useSelector((state) => state.app.onEditingTask);
   const modalActions = useSelector((state) => state.uiBehavior.modalActions);
@@ -50,7 +50,6 @@ const TaskItem = ({ task }) => {
     const endDateModified = moment(endDate);
     const duration = moment.duration(endDateModified.diff(currentDate));
     const days = duration.days() - 1;
-    console.log("days", days);
 
     if (days === 0 || days === 1) {
       return timeTag;
@@ -60,6 +59,20 @@ const TaskItem = ({ task }) => {
       return `${days} days to left`;
     } else {
       return timeTag;
+    }
+  };
+
+  const handleAmountToLeft = () => {
+    if (subtasks && subtasks.length > 0) {
+      return parseInt(
+        (subtasks.filter((subtask) => subtask.status === true).length /
+          (subtasks.length + 1)) *
+          100
+      );
+    } else if (status === false) {
+      return 0;
+    } else {
+      return 100;
     }
   };
 
@@ -80,22 +93,19 @@ const TaskItem = ({ task }) => {
         </CardNotification>
       </CardHeader>
       <CardContent>
-        {/** Controlling subtask if it exists, includes just first element in this card */}
-        
-        <CardElementGroup>
-         
-        </CardElementGroup>
-
-
-        
+        <CardElementGroup></CardElementGroup>
         <CardElementGroup>
           {(selectedSidebarMenu === sidebarMenuItems[5] ||
             selectedSidebarMenu === sidebarMenuItems[6]) && (
             <Button
               size="large"
-              onClick={() =>
-                dispatch(updateTaskRequest(_id, { ...task, trashStatus: true }))
-              }
+              onClick={() => {
+                dispatch(
+                  updateTaskRequest(_id, { ...task, trashStatus: true })
+                );
+                dispatch(setSelectedTask(null));
+                dispatch(setDetailsViewTask(false));
+              }}
             >
               Move To Trash
             </Button>
@@ -103,7 +113,7 @@ const TaskItem = ({ task }) => {
           {(selectedSidebarMenu === sidebarMenuItems[0] ||
             selectedSidebarMenu === sidebarMenuItems[1] ||
             selectedSidebarMenu === sidebarMenuItems[2]) && (
-            <CardElement>40%</CardElement>
+            <CardElement>{handleAmountToLeft()}%</CardElement>
           )}
         </CardElementGroup>
       </CardContent>

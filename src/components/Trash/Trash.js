@@ -11,6 +11,7 @@ import Loader from "../UI/Loader/Loader";
 import { TrashItem, TrashHeader, TrashActions } from "./styles";
 import { deleteTaskRequest } from "../../store/actions/taskActions";
 import {
+  setDetailsEditTask,
   setMakeNewTask,
   setModal,
 } from "../../store/actions/uiBehaviorActions";
@@ -38,6 +39,7 @@ const Trash = () => {
               <IconButton
                 onClick={() => {
                   dispatch(setSelectedTask(trashTask));
+                  dispatch(setDetailsEditTask(false));
                   dispatch(setMakeNewTask(true));
                 }}
               >
