@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# LISTUP
+LISTUP is task management project built in React.js. It is aimed to manage tasks, routines, create lists and tags.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![listup-overview](https://user-images.githubusercontent.com/53271497/113866433-fe85fa00-97b5-11eb-9713-9f7a1e3d44b1.png)
 
-## Available Scripts
+## Table of contents
+* [Features](#features)
+* [Getting started](#getting-started)
+* [Screenshots of Project](#screenshots-of-project)
+* [Notes](#notes)
 
-In the project directory, you can run:
+## Features
+* Based on [React.js](https://github.com/facebook/react)
+* State management with [redux](https://github.com/reduxjs/redux), [react-redux](https://github.com/reduxjs/react-redux) and [redux-saga](https://github.com/redux-saga/redux-saga)
+* Styling with [styled-components](https://github.com/styled-components/styled-components) and [react-icons](https://github.com/react-icons/react-icons)
+* [axios](https://github.com/axios/axios), [moment](https://github.com/moment/moment) and more...
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting started
+```
+git clone https://github.com/msimsir/listup-frontend.git
+cd listup-frontend
+npm install
+npm start
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Screenshots of Project
+![listup-create-new-task](https://user-images.githubusercontent.com/53271497/113866475-0d6cac80-97b6-11eb-984f-b525cbec2ed7.png)
 
-### `npm test`
+![listup-undone-tasks](https://user-images.githubusercontent.com/53271497/113866538-1e1d2280-97b6-11eb-9fcc-b4203d4c0522.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![listup-alert](https://user-images.githubusercontent.com/53271497/113866505-165d7e00-97b6-11eb-850e-c984503e8409.png)
 
-### `npm run build`
+![listup-make-new-task](https://user-images.githubusercontent.com/53271497/113866526-1a899b80-97b6-11eb-9870-1f8d62f750f8.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Notes
+Routine and schedule management, user authentication will be added to project.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
